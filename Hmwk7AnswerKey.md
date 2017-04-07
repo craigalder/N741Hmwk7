@@ -605,19 +605,19 @@ knn.20 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 20)
 100*sum(people$SleepTrouble == knn.3)/length(knn.3)
 ```
 
-    ## [1] 90.95469
+    ## [1] 90.77077
 
 ``` r
 100*sum(people$SleepTrouble == knn.5)/length(knn.5)
 ```
 
-    ## [1] 87.1259
+    ## [1] 87.05902
 
 ``` r
 100*sum(people$SleepTrouble == knn.20)/length(knn.20)
 ```
 
-    ## [1] 77.98027
+    ## [1] 77.79636
 
 ``` r
 #overall success
@@ -637,8 +637,8 @@ table(knn.3, people$SleepTrouble)
 
     ##      
     ## knn.3    0    1
-    ##     0 4187  353
-    ##     1  188 1253
+    ##     0 4183  360
+    ##     1  192 1246
 
 ``` r
 table(knn.5, people$SleepTrouble)
@@ -646,8 +646,8 @@ table(knn.5, people$SleepTrouble)
 
     ##      
     ## knn.5    0    1
-    ##     0 4174  569
-    ##     1  201 1037
+    ##     0 4169  568
+    ##     1  206 1038
 
 ``` r
 table(knn.20, people$SleepTrouble)
@@ -655,8 +655,8 @@ table(knn.20, people$SleepTrouble)
 
     ##       
     ## knn.20    0    1
-    ##      0 4274 1216
-    ##      1  101  390
+    ##      0 4268 1221
+    ##      1  107  385
 
 ### (Version 1) The ensemble method - using the approach from lesson 10 with Age and BMI
 
@@ -1075,3 +1075,547 @@ For each of the model types (null model, logistic regression, decision tree, ran
 -   1B. Report its effectiveness on the NHANES dataset.
 -   1C. Make an appropriate visualization of this model.
 -   1D. Interpret the results. What have you learned about people's sleeping habits?
+
+### Suppose we recode `SleepHrsNight` into optimal and suboptimal sleep
+
+To use the code similar to what we did above, it'll be best to create a categorical.binary outcome. Let's suppose that if the person got 7-9 hours of sleep each night that is optimal sleep time, but any sleep times less than 7 hours or more than 9 hours is considered suboptimal.
+
+I'll use the same approach as above and same variable subset.
+
+``` r
+# build dataset for these 10 variables and SleepHrsNight
+people <- NHANES %>% 
+  select(Age, Gender, MaritalStatus, Poverty, HomeOwn,
+         BMI, Diabetes, HealthGen, Depressed, PhysActive,
+         SleepHrsNight) 
+
+# run summary
+summary(people)
+```
+
+    ##       Age           Gender          MaritalStatus     Poverty     
+    ##  Min.   : 0.00   female:5020   Divorced    : 707   Min.   :0.000  
+    ##  1st Qu.:17.00   male  :4980   LivePartner : 560   1st Qu.:1.240  
+    ##  Median :36.00                 Married     :3945   Median :2.700  
+    ##  Mean   :36.74                 NeverMarried:1380   Mean   :2.802  
+    ##  3rd Qu.:54.00                 Separated   : 183   3rd Qu.:4.710  
+    ##  Max.   :80.00                 Widowed     : 456   Max.   :5.000  
+    ##                                NA's        :2769   NA's   :726    
+    ##   HomeOwn          BMI        Diabetes        HealthGen      Depressed   
+    ##  Own  :6425   Min.   :12.88   No  :9098   Excellent: 878   None   :5246  
+    ##  Rent :3287   1st Qu.:21.58   Yes : 760   Vgood    :2508   Several:1009  
+    ##  Other: 225   Median :25.98   NA's: 142   Good     :2956   Most   : 418  
+    ##  NA's :  63   Mean   :26.66               Fair     :1010   NA's   :3327  
+    ##               3rd Qu.:30.89               Poor     : 187                 
+    ##               Max.   :81.25               NA's     :2461                 
+    ##               NA's   :366                                                
+    ##  PhysActive  SleepHrsNight   
+    ##  No  :3677   Min.   : 2.000  
+    ##  Yes :4649   1st Qu.: 6.000  
+    ##  NA's:1674   Median : 7.000  
+    ##              Mean   : 6.928  
+    ##              3rd Qu.: 8.000  
+    ##              Max.   :12.000  
+    ##              NA's   :2245
+
+``` r
+# Convert back to dataframe
+people <- as.data.frame(people)
+glimpse(people)
+```
+
+    ## Observations: 10,000
+    ## Variables: 11
+    ## $ Age           <int> 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 54,...
+    ## $ Gender        <fctr> male, male, male, male, female, male, male, fem...
+    ## $ MaritalStatus <fctr> Married, Married, Married, NA, LivePartner, NA,...
+    ## $ Poverty       <dbl> 1.36, 1.36, 1.36, 1.07, 1.91, 1.84, 2.33, 5.00, ...
+    ## $ HomeOwn       <fctr> Own, Own, Own, Own, Rent, Rent, Own, Own, Own, ...
+    ## $ BMI           <dbl> 32.22, 32.22, 32.22, 15.30, 30.57, 16.82, 20.64,...
+    ## $ Diabetes      <fctr> No, No, No, No, No, No, No, No, No, No, No, No,...
+    ## $ HealthGen     <fctr> Good, Good, Good, NA, Good, NA, NA, Vgood, Vgoo...
+    ## $ Depressed     <fctr> Several, Several, Several, NA, Several, NA, NA,...
+    ## $ PhysActive    <fctr> No, No, No, NA, No, NA, NA, Yes, Yes, Yes, Yes,...
+    ## $ SleepHrsNight <int> 4, 4, 4, NA, 8, NA, NA, 8, 8, 8, 7, 5, 4, NA, 5,...
+
+``` r
+# Convert factors to numeric - the packages just seem to work better that way
+people$Gender <- as.numeric(people$Gender)
+people$MaritalStatus <- as.numeric(people$MaritalStatus)
+people$HomeOwn <- as.numeric(people$HomeOwn)
+people$Diabetes <- as.numeric(people$Diabetes)
+people$HealthGen <- as.numeric(people$HealthGen)
+people$Depressed <- as.numeric(people$Depressed)
+people$PhysActive <- as.numeric(people$PhysActive)
+people$SleepHrsNight <- as.numeric(people$SleepHrsNight)
+
+summary(people)
+```
+
+    ##       Age            Gender      MaritalStatus      Poverty     
+    ##  Min.   : 0.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+    ##  1st Qu.:17.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.240  
+    ##  Median :36.00   Median :1.000   Median :3.000   Median :2.700  
+    ##  Mean   :36.74   Mean   :1.498   Mean   :3.158   Mean   :2.802  
+    ##  3rd Qu.:54.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:4.710  
+    ##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+    ##                                  NA's   :2769    NA's   :726    
+    ##     HomeOwn           BMI           Diabetes       HealthGen    
+    ##  Min.   :1.000   Min.   :12.88   Min.   :1.000   Min.   :1.000  
+    ##  1st Qu.:1.000   1st Qu.:21.58   1st Qu.:1.000   1st Qu.:2.000  
+    ##  Median :1.000   Median :25.98   Median :1.000   Median :3.000  
+    ##  Mean   :1.376   Mean   :26.66   Mean   :1.077   Mean   :2.618  
+    ##  3rd Qu.:2.000   3rd Qu.:30.89   3rd Qu.:1.000   3rd Qu.:3.000  
+    ##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+    ##  NA's   :63      NA's   :366     NA's   :142     NA's   :2461   
+    ##    Depressed       PhysActive    SleepHrsNight   
+    ##  Min.   :1.000   Min.   :1.000   Min.   : 2.000  
+    ##  1st Qu.:1.000   1st Qu.:1.000   1st Qu.: 6.000  
+    ##  Median :1.000   Median :2.000   Median : 7.000  
+    ##  Mean   :1.276   Mean   :1.558   Mean   : 6.928  
+    ##  3rd Qu.:1.000   3rd Qu.:2.000   3rd Qu.: 8.000  
+    ##  Max.   :3.000   Max.   :2.000   Max.   :12.000  
+    ##  NA's   :3327    NA's   :1674    NA's   :2245
+
+``` r
+dim(people)
+```
+
+    ## [1] 10000    11
+
+``` r
+# drop any cases/rows with missing data
+# this step creates a complete cases dataset
+people <- na.omit(people)
+summary(people)
+```
+
+    ##       Age            Gender      MaritalStatus      Poverty     
+    ##  Min.   :20.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+    ##  1st Qu.:33.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.390  
+    ##  Median :47.00   Median :2.000   Median :3.000   Median :3.010  
+    ##  Mean   :47.36   Mean   :1.504   Mean   :3.133   Mean   :2.991  
+    ##  3rd Qu.:60.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:5.000  
+    ##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+    ##     HomeOwn           BMI           Diabetes       HealthGen    
+    ##  Min.   :1.000   Min.   :15.02   Min.   :1.000   Min.   :1.000  
+    ##  1st Qu.:1.000   1st Qu.:24.20   1st Qu.:1.000   1st Qu.:2.000  
+    ##  Median :1.000   Median :27.90   Median :1.000   Median :3.000  
+    ##  Mean   :1.343   Mean   :28.91   Mean   :1.104   Mean   :2.627  
+    ##  3rd Qu.:2.000   3rd Qu.:32.36   3rd Qu.:1.000   3rd Qu.:3.000  
+    ##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+    ##    Depressed      PhysActive    SleepHrsNight   
+    ##  Min.   :1.00   Min.   :1.000   Min.   : 2.000  
+    ##  1st Qu.:1.00   1st Qu.:1.000   1st Qu.: 6.000  
+    ##  Median :1.00   Median :2.000   Median : 7.000  
+    ##  Mean   :1.27   Mean   :1.541   Mean   : 6.903  
+    ##  3rd Qu.:1.00   3rd Qu.:2.000   3rd Qu.: 8.000  
+    ##  Max.   :3.00   Max.   :2.000   Max.   :12.000
+
+``` r
+dim(people)
+```
+
+    ## [1] 5968   11
+
+``` r
+# recode into optimal and suboptimal sleep times
+# if hours is between 7 and 9 set outcome to 1, else set to 0
+people$SleepOptimal <- ifelse((people$SleepHrsNight <= 9 &
+                                 people$SleepHrsNight >= 7), 1, 0)
+```
+
+### Run Logistic Regression - predict Sleep Trouble
+
+``` r
+# drop SleepHrsNight
+people <- people %>% select(-SleepHrsNight)
+
+# model SleepTrouble by rest of variables in people dataset
+fmla <- "SleepOptimal ~ ."
+
+logreg <- glm(fmla, 
+              data=people, 
+              family=binomial(link="logit"))
+
+summary(logreg)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = fmla, family = binomial(link = "logit"), data = people)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -1.8534  -1.2663   0.7831   0.9690   1.6859  
+    ## 
+    ## Coefficients:
+    ##                Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept)    1.617923   0.271054   5.969 2.39e-09 ***
+    ## Age            0.002616   0.001818   1.439  0.15023    
+    ## Gender        -0.175345   0.055329  -3.169  0.00153 ** 
+    ## MaritalStatus -0.008895   0.024289  -0.366  0.71419    
+    ## Poverty        0.046104   0.018982   2.429  0.01515 *  
+    ## HomeOwn       -0.185381   0.058362  -3.176  0.00149 ** 
+    ## BMI           -0.002653   0.004263  -0.622  0.53368    
+    ## Diabetes      -0.049788   0.094796  -0.525  0.59943    
+    ## HealthGen     -0.276983   0.033019  -8.388  < 2e-16 ***
+    ## Depressed     -0.319782   0.049388  -6.475 9.49e-11 ***
+    ## PhysActive     0.285746   0.058478   4.886 1.03e-06 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 7925.4  on 5967  degrees of freedom
+    ## Residual deviance: 7612.4  on 5957  degrees of freedom
+    ## AIC: 7634.4
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+people$pred <- predict(logreg, 
+                       newdata=people, 
+                       type="response")
+
+# plot predicted probabilities
+ggplot(people, 
+       aes(x=pred, color=as.factor(SleepOptimal), 
+           linetype=as.factor(SleepOptimal))) +
+  geom_density() +
+  ggtitle("Predicted Probability for Sleep Optimal")
+```
+
+![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-17-1.png)
+
+``` r
+# pick a threshold and get confusion (prediction) matrix
+# test a classifier with a threshold > 0.70
+ctab <- table(pred=people$pred>0.7, SleepOptimal=people$SleepOptimal)
+ctab
+```
+
+    ##        SleepOptimal
+    ## pred       0    1
+    ##   FALSE 1888 2523
+    ##   TRUE   379 1178
+
+``` r
+# compute precision = true positives / predicted true
+precision <- ctab[2,2]/sum(ctab[2,])
+precision
+```
+
+    ## [1] 0.7565832
+
+``` r
+# compute recall = true positives / actual true
+recall <- ctab[2,2]/sum(ctab[,2])
+recall
+```
+
+    ## [1] 0.3182924
+
+``` r
+# look at ROC curve
+library(pROC)
+roccurve <- roc(people$SleepOptimal ~ people$pred)
+plot(roccurve)
+```
+
+![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-17-2.png)
+
+``` r
+# pull out just the AUC statistic
+auc(roccurve)
+```
+
+    ## Area under the curve: 0.6327
+
+### NULL MODEL for Logistic Regression
+
+We didn't cover this in class, but to get an "intercept-only" model you use a formula in the form of `outcome ~ 1` which basically says model the `outcome` variable as a function of the intercept indicated by the `1`. This formula can be used for any generalized linear modeling approach (linear regression, logistic regression, Poisson regression, etc). You'll notice in running the code steps below that using the intercept only approach does no better than flipping a coin which you see for the ROC curve which is a straight line and the AUC is 0.5 (50/50 guessing does as well as this null model with no predictors). You always want the AUC to be &gt;0.5 and as close to 1.0 as possible. AUCs &gt;0.7 are ok but you really want AUCs &gt;0.8 and &gt;0.9 is even better.
+
+``` r
+# NULL MODEL for Logistic Regression 
+# is basically an intercept-only model with no predictors
+logreg.null <- glm(SleepOptimal ~ 1, 
+                   data=people, 
+                   family=binomial(link="logit"))
+
+summary(logreg.null)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = SleepOptimal ~ 1, family = binomial(link = "logit"), 
+    ##     data = people)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -1.3914  -1.3914   0.9776   0.9776   0.9776  
+    ## 
+    ## Coefficients:
+    ##             Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept)  0.49015    0.02667   18.38   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 7925.4  on 5967  degrees of freedom
+    ## Residual deviance: 7925.4  on 5967  degrees of freedom
+    ## AIC: 7927.4
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+people$pred.null <- predict(logreg.null, 
+                       newdata=people, 
+                       type="response")
+
+# plot predicted probabilities
+ggplot(people, 
+       aes(x=pred.null, color=as.factor(SleepOptimal), 
+           linetype=as.factor(SleepOptimal))) +
+  geom_density() +
+  ggtitle("Predicted Probability for Sleep Optimal - Null Model")
+```
+
+![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-18-1.png)
+
+``` r
+# look at ROC curve
+#library(pROC)
+roccurve <- roc(people$SleepOptimal ~ people$pred.null)
+plot(roccurve)
+```
+
+![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-18-2.png)
+
+``` r
+# pull out just the AUC statistic
+auc(roccurve)
+```
+
+    ## Area under the curve: 0.5
+
+### Try KNN to predict Sleep Optimal
+
+``` r
+# for knn, rpart and randomForest, set SleepOptimal
+# back to being a factor
+people$SleepOptimal <- as.factor(people$SleepOptimal)
+
+# Apply knn procedure to predict Diabetes
+# use the knn procedure in the class package
+library(class)
+
+# Let's try different values of k to see how that affects performance
+knn.1 <- knn(train = people, test = people, cl = people$SleepOptimal, k = 1)
+knn.3 <- knn(train = people, test = people, cl = people$SleepOptimal, k = 3)
+knn.5 <- knn(train = people, test = people, cl = people$SleepOptimal, k = 5)
+knn.20 <- knn(train = people, test = people, cl = people$SleepOptimal, k = 20)
+
+# see how well they classified
+# Calculate the percent predicted correctly
+
+100*sum(people$SleepOptimal == knn.1)/length(knn.1)
+```
+
+    ## [1] 100
+
+``` r
+100*sum(people$SleepOptimal == knn.3)/length(knn.3)
+```
+
+    ## [1] 89.62802
+
+``` r
+100*sum(people$SleepOptimal == knn.5)/length(knn.5)
+```
+
+    ## [1] 86.17627
+
+``` r
+100*sum(people$SleepOptimal == knn.20)/length(knn.20)
+```
+
+    ## [1] 78.03284
+
+``` r
+#overall success
+# Another way to look at success rate against increasing k
+
+table(knn.1, people$SleepOptimal)
+```
+
+    ##      
+    ## knn.1    0    1
+    ##     0 2267    0
+    ##     1    0 3701
+
+``` r
+table(knn.3, people$SleepOptimal)
+```
+
+    ##      
+    ## knn.3    0    1
+    ##     0 1889  241
+    ##     1  378 3460
+
+``` r
+table(knn.5, people$SleepOptimal)
+```
+
+    ##      
+    ## knn.5    0    1
+    ##     0 1724  282
+    ##     1  543 3419
+
+``` r
+table(knn.20, people$SleepOptimal)
+```
+
+    ##       
+    ## knn.20    0    1
+    ##      0 1179  223
+    ##      1 1088 3478
+
+### (Version 1) The ensemble method - using the approach from lesson 10 with Age and BMI
+
+The example here uses the same basic code we did in class for lesson 10. This looks at just Age and BMI and no other variables considered in the decision tree and random forest models. The plots also just consider Age and BMI.
+
+``` r
+library(mosaic)
+# Create the grid
+ages <- mosaic::range(~ Age, data = people)
+bmis <- mosaic::range(~ BMI, data = people)
+res <- 100
+fake_grid <- expand.grid(
+  Age = seq(from = ages[1], to = ages[2], length.out = res),
+  BMI = seq(from = bmis[1], to = bmis[2], length.out = res))
+
+#Get the overall proportion, p, of people with Sleep Trouble
+p <- sum(people$SleepOptimal == 1)/length(people$SleepOptimal)
+p
+```
+
+    ## [1] 0.6201408
+
+``` r
+# Null model prediction
+pred_null <- rep(p, nrow(fake_grid))
+
+form <- as.formula("SleepOptimal ~ Age + BMI")
+
+library(rpart)
+# Evaluate each model on each grid point
+# For the decision tree
+dmod_tree <- rpart(form, data = people, 
+                   control = rpart.control(cp = 0.005, minbucket = 30))
+
+# results summary
+dmod_tree
+```
+
+    ## n= 5968 
+    ## 
+    ## node), split, n, loss, yval, (yprob)
+    ##       * denotes terminal node
+    ## 
+    ## 1) root 5968 2267 1 (0.3798592 0.6201408) *
+
+``` r
+# For the forest
+set.seed(20371)
+#dmod_forest <- rfsrc(form, data = people, 
+#                     ntree = 201, mtry = 3)
+# try with randomForest instead of randomForestSRC package
+library(randomForest)
+dmod_forest <- randomForest(form, data = people, 
+                     ntree = 201, mtry = 2)
+
+# results summary
+dmod_forest
+```
+
+    ## 
+    ## Call:
+    ##  randomForest(formula = form, data = people, ntree = 201, mtry = 2) 
+    ##                Type of random forest: classification
+    ##                      Number of trees: 201
+    ## No. of variables tried at each split: 2
+    ## 
+    ##         OOB estimate of  error rate: 19.59%
+    ## Confusion matrix:
+    ##      0    1 class.error
+    ## 0 1607  660   0.2911337
+    ## 1  509 3192   0.1375304
+
+``` r
+# Now the predictions for tree and forest
+#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]
+pred_tree <- predict(dmod_tree, newdata = fake_grid)[,1]
+summary(pred_tree)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##  0.3799  0.3799  0.3799  0.3799  0.3799  0.3799
+
+``` r
+#table(pred_tree)
+
+# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
+#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
+#                       type = "prob")[, "Yes"]
+pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,1]
+summary(pred_forest)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##  0.0000  0.2189  0.3930  0.4369  0.6567  0.9950
+
+``` r
+#table(pred_forest)
+
+# K-nearest neighbor prediction
+pred_knn <- people %>%
+  select(Age, BMI) %>%
+  knn(test=select(fake_grid, Age, BMI), cl = people$SleepOptimal, k=5) %>%
+  as.numeric() - 1
+```
+
+Next, we want to build a dataframe with all of these predicted models, then `gather()` it into a long format.
+
+``` r
+library(tidyr)
+
+# build the data frame
+res <- fake_grid %>%
+  mutate(
+    "Null" = pred_null, 
+    "Decision Tree" = pred_tree,
+    "Random Forest" = pred_forest, 
+    "K-nearest neighbor" = pred_knn) %>%
+  gather(k="model", value = "y_hat", -Age, -BMI)
+```
+
+    ## Warning: attributes are not identical across measure variables; they will
+    ## be dropped
+
+Next let's plot all of these
+
+``` r
+ggplot(data = res, aes(x = Age, y = BMI)) +
+  geom_tile(aes(fill=y_hat), color = NA) +
+  geom_count(aes(color = SleepOptimal), alpha = 0.4, data = people) +
+  scale_fill_gradient(low = "white", high = "blue") +
+  scale_color_manual(values = c("gray", "gold")) +
+  scale_size(range = c(0,2)) +
+  scale_x_continuous(expand = c(0.02, 0)) +
+  scale_y_continuous(expand = c(0.02, 0)) +
+  facet_wrap(~model)
+```
+
+![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-22-1.png)
