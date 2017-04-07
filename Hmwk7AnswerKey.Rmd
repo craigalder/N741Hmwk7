@@ -5,6 +5,8 @@ date: "April 6, 2017"
 output:
   github_document: default
   html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -34,7 +36,14 @@ For each of the model types (null model, logistic regression, decision tree, ran
 
 ## Homework 7 - Answer Key
 
-Given the instructions providing in the assignment (above), it is useful to review the code and examples provided in "lesson 10" in Dr. Hertzberg's Github repository at [https://github.com/vhertzb/Lesson10](https://github.com/vhertzb/Lesson10).
+Given the instructions providing in the assignment (above), it is useful to review the code and examples provided in "lesson 10" in Dr. Hertzberg's Github repository at [https://github.com/vhertzb/Lesson10](https://github.com/vhertzb/Lesson10). Specifically, review the steps in the `Lesson10.Rmd` R markdown file. This "part 1" covered the code and steps for predicting `Diabetes` from these variables: `Age`, `Gender`, `BMI`, `HHIncome`, and `PhysActive`. The code and examples shown include:
+
+* the "null" model (i.e. the proportion of people with diabetes versus not)
+* running KNN (k-Nearest Neighbor Classification) (via `knn` from the `class` package)
+* a decision tree (via `rpart()` from the `rpart` package)
+* and using `randomForest` from the `randomForest` package
+
+**NOTE**: Lesson 10's `Lesson10.Rmd` R markdown did not include the code for running a logistic regression for Diabetes, but this was covered earlier around week 5; see [https://github.com/melindahiggins2000/N741linearlogmodels](https://github.com/melindahiggins2000/N741linearlogmodels) when we covered generalized linear models. We also did more with logistic regression in week 6, see [https://github.com/melindahiggins2000/N741predict](https://github.com/melindahiggins2000/N741predict).
 
 ### Load the NHANES dataset and review the variables included
 
@@ -109,6 +118,12 @@ dat1 %>%
 2. Since this is a numeric outcome, the classifiers chosen will be performing "regression" based models as opposed to "category probability" type models like logistic regression.
 3. That said, the distribution of `SleepHrsNight` is reasonably symmetric and approximately normally distributed which is good with no obvious outliers, even though the range of sleep times is wide from 2 to 12 hours, which is interesting.
 
+## Overall Notes on **Open-Ended Approach** for This Homework 7 Assignment
+
+While the NHANES dataset had 76 variables, it was intended for you to choose a subset you thought would be appropriate for predicting/classifying those with trouble sleeping and/or their time spent sleeping.
+
+A side note on sleep times - given that the hours spent sleeping was numeric and ordinal in nature and was symmetrically and approximately normally distributed, it was OK to approach modeling `SleepHrsNight` as a continuous/numeric outcome (i.e. a "regression-type" approach). However, it was also OK if you decided to recode this variable into subjects with low sleep times (say < 7) versus more sleep. You could have also looked at recoding `SleephrsNight` into those with optimal sleep (7-9 hrs) versus less than optimal (which includes both those people with less than 7 hrs and more than 9 hrs - both too little and too much sleep can be problematic). Any of these approaches were OK.
+
 ## PART 1 - Build "classifiers" for `SleepTrouble`
 
 For each of the model types (null model, logistic regression, decision tree, random forest, k-nearest neighbor):
@@ -118,6 +133,420 @@ For each of the model types (null model, logistic regression, decision tree, ran
 * 1C. Make an appropriate visualization of this model.
 * 1D. Interpret the results. What have you learned about people's sleeping habits?
 
+### Pick a subset of likely variables for predicting Sleep Trouble
+
+For my approach, I'm choosing the following 10 variables as possible predictors of sleep problems:
+
+1. age
+2. gender
+3. marital status
+4. poverty
+5. home ownership
+6. BMI
+7. Diabetes
+8. health in general
+9. depressed
+10. physically active
+
+```{r}
+# build dataset for these 10 variables and SleepTrouble
+people <- NHANES %>% 
+  select(Age, Gender, MaritalStatus, Poverty, HomeOwn,
+         BMI, Diabetes, HealthGen, Depressed, PhysActive,
+         SleepTrouble) 
+
+# run summary
+summary(people)
+
+# Convert back to dataframe
+people <- as.data.frame(people)
+glimpse(people)
+
+# Convert factors to numeric - the packages just seem to work better that way
+people$Gender <- as.numeric(people$Gender)
+people$MaritalStatus <- as.numeric(people$MaritalStatus)
+people$HomeOwn <- as.numeric(people$HomeOwn)
+people$Diabetes <- as.numeric(people$Diabetes)
+people$HealthGen <- as.numeric(people$HealthGen)
+people$Depressed <- as.numeric(people$Depressed)
+people$PhysActive <- as.numeric(people$PhysActive)
+people$SleepTrouble <- as.numeric(people$SleepTrouble)
+
+summary(people)
+dim(people)
+
+# drop any cases/rows with missing data
+# this step creates a complete cases dataset
+people <- na.omit(people)
+summary(people)
+dim(people)
+```
+
+### Run Logistic Regression - predict Sleep Trouble
+
+```{r}
+# recode SleepTrouble into 0 (for no sleep trouble)
+# and 1 (for yes Sleep Trouble); so we need to recode
+# values of 2 (which were yes) to 1. We'll use
+# the double equals to find all TRUE values and then convert
+# the logical results into 0's and 1's.
+people$SleepTrouble <- as.numeric(people$SleepTrouble==2)
+
+# model SleepTrouble by rest of variables in people dataset
+fmla <- "SleepTrouble ~ ."
+
+logreg <- glm(fmla, 
+              data=people, 
+              family=binomial(link="logit"))
+
+summary(logreg)
+
+people$pred <- predict(logreg, 
+                       newdata=people, 
+                       type="response")
+
+# plot predicted probabilities
+ggplot(people, 
+       aes(x=pred, color=as.factor(SleepTrouble), 
+           linetype=as.factor(SleepTrouble))) +
+  geom_density() +
+  ggtitle("Predicted Probability for Sleep Trouble")
+
+# pick a threshold and get confusion (prediction) matrix
+# test a classifier with a threshold > 0.20
+ctab <- table(pred=people$pred>0.2, SleepTrouble=people$SleepTrouble)
+ctab
+
+# compute precision = true positives / predicted true
+precision <- ctab[2,2]/sum(ctab[2,])
+precision
+
+# compute recall = true positives / actual true
+recall <- ctab[2,2]/sum(ctab[,2])
+recall
+
+# look at ROC curve
+library(pROC)
+roccurve <- roc(people$SleepTrouble ~ people$pred)
+plot(roccurve)
+
+# pull out just the AUC statistic
+auc(roccurve)
+```
+
+### NULL MODEL for Logistic Regression
+
+We didn't cover this in class, but to get an "intercept-only" model you use a formula in the form of `outcome ~ 1` which basically says model the `outcome` variable as a function of the intercept indicated by the `1`. This formula can be used for any generalized linear modeling approach (linear regression, logistic regression, Poisson regression, etc). You'll notice in running the code steps below that using the intercept only approach does no better than flipping a coin which you see for the ROC curve which is a straight line and the AUC is 0.5 (50/50 guessing does as well as this null model with no predictors). You always want the AUC to be >0.5 and as close to 1.0 as possible. AUCs >0.7 are ok but you really want AUCs >0.8 and >0.9 is even better.
+
+```{r}
+
+# NULL MODEL for Logistic Regression 
+# is basically an intercept-only model with no predictors
+logreg.null <- glm(SleepTrouble ~ 1, 
+                   data=people, 
+                   family=binomial(link="logit"))
+
+summary(logreg.null)
+
+people$pred.null <- predict(logreg.null, 
+                       newdata=people, 
+                       type="response")
+
+# plot predicted probabilities
+ggplot(people, 
+       aes(x=pred.null, color=as.factor(SleepTrouble), 
+           linetype=as.factor(SleepTrouble))) +
+  geom_density() +
+  ggtitle("Predicted Probability for Sleep Trouble - Null Model")
+
+# pick a threshold and get confusion (prediction) matrix
+# test a classifier with a threshold > 0.30
+ctab <- table(pred=people$pred>0.3, SleepTrouble=people$SleepTrouble)
+ctab
+
+# compute precision = true positives / predicted true
+precision <- ctab[2,2]/sum(ctab[2,])
+precision
+
+# compute recall = true positives / actual true
+recall <- ctab[2,2]/sum(ctab[,2])
+recall
+
+# look at ROC curve
+#library(pROC)
+roccurve <- roc(people$SleepTrouble ~ people$pred.null)
+plot(roccurve)
+
+# pull out just the AUC statistic
+auc(roccurve)
+```
+
+### Try KNN to predict Sleep Trouble
+
+```{r}
+# for knn, rpart and randomForest, set SleepTrouble
+# back to being a factor
+people$SleepTrouble <- as.factor(people$SleepTrouble)
+
+# Apply knn procedure to predict Diabetes
+# use the knn procedure in the class package
+library(class)
+
+# Let's try different values of k to see how that affects performance
+knn.1 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 1)
+knn.3 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 3)
+knn.5 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 5)
+knn.20 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 20)
+
+# see how well they classified
+# Calculate the percent predicted correctly
+
+100*sum(people$SleepTrouble == knn.1)/length(knn.1)
+100*sum(people$SleepTrouble == knn.3)/length(knn.3)
+100*sum(people$SleepTrouble == knn.5)/length(knn.5)
+100*sum(people$SleepTrouble == knn.20)/length(knn.20)
+
+#overall success
+# Another way to look at success rate against increasing k
+
+table(knn.1, people$SleepTrouble)
+table(knn.3, people$SleepTrouble)
+table(knn.5, people$SleepTrouble)
+table(knn.20, people$SleepTrouble)
+```
+
+### (Version 1) The ensemble method - using the approach from lesson 10 with Age and BMI
+
+The example here uses the same basic code we did in class for lesson 10. This looks at just Age and BMI and no other variables considered in the decision tree and random forest models. The plots also just consider Age and BMI.
+
+```{r}
+library(mosaic)
+# Create the grid
+ages <- mosaic::range(~ Age, data = people)
+bmis <- mosaic::range(~ BMI, data = people)
+res <- 100
+fake_grid <- expand.grid(
+  Age = seq(from = ages[1], to = ages[2], length.out = res),
+  BMI = seq(from = bmis[1], to = bmis[2], length.out = res))
+
+#Get the overall proportion, p, of people with Sleep Trouble
+p <- sum(people$SleepTrouble == 1)/length(people$SleepTrouble)
+p
+
+# Null model prediction
+pred_null <- rep(p, nrow(fake_grid))
+
+form <- as.formula("SleepTrouble ~ Age + BMI")
+
+library(rpart)
+# Evaluate each model on each grid point
+# For the decision tree
+dmod_tree <- rpart(form, data = people, 
+                   control = rpart.control(cp = 0.005, minbucket = 30))
+
+# results summary
+dmod_tree
+
+# For the forest
+set.seed(20371)
+#dmod_forest <- rfsrc(form, data = people, 
+#                     ntree = 201, mtry = 3)
+# try with randomForest instead of randomForestSRC package
+library(randomForest)
+dmod_forest <- randomForest(form, data = people, 
+                     ntree = 201, mtry = 2)
+
+# results summary
+dmod_forest
+
+# Now the predictions for tree and forest
+#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]
+pred_tree <- predict(dmod_tree, newdata = fake_grid)[,1]
+summary(pred_tree)
+#table(pred_tree)
+
+# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
+#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
+#                       type = "prob")[, "Yes"]
+pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,1]
+summary(pred_forest)
+#table(pred_forest)
+
+# K-nearest neighbor prediction
+pred_knn <- people %>%
+  select(Age, BMI) %>%
+  knn(test=select(fake_grid, Age, BMI), cl = people$SleepTrouble, k=5) %>%
+  as.numeric() - 1
+
+```
+
+Next, we want to build a dataframe with all of these predicted models, then `gather()` it into a long format.
+
+```{r}
+library(tidyr)
+
+# build the data frame
+res <- fake_grid %>%
+  mutate(
+    "Null" = pred_null, 
+    "Decision Tree" = pred_tree,
+    "Random Forest" = pred_forest, 
+    "K-nearest neighbor" = pred_knn) %>%
+  gather(k="model", value = "y_hat", -Age, -BMI)
+
+```
+
+Next let's plot all of these
+
+```{r}
+
+ggplot(data = res, aes(x = Age, y = BMI)) +
+  geom_tile(aes(fill=y_hat), color = NA) +
+  geom_count(aes(color = SleepTrouble), alpha = 0.4, data = people) +
+  scale_fill_gradient(low = "white", high = "blue") +
+  scale_color_manual(values = c("gray", "gold")) +
+  scale_size(range = c(0,2)) +
+  scale_x_continuous(expand = c(0.02, 0)) +
+  scale_y_continuous(expand = c(0.02, 0)) +
+  facet_wrap(~model)
+
+```
+
+
+### (Version 2): The ensemble method - using all 10 variables I choose
+
+The decision tree (`rpart`) and random forest models below use the 10 variables I selected. I then modified the plots to look at the effects of Age and Poverty insead of Age and BMI. I also added plots to show the decision tree and the variable importance plot from random forest so you can see that indeed BMI, Age and Poverty are indeed important in predicting sleep trouble.
+
+```{r}
+people <- people %>%
+  select(Age, Gender, MaritalStatus, Poverty,
+         HomeOwn, BMI, Diabetes, HealthGen, Depressed,
+         PhysActive, SleepTrouble)
+  
+# note: all variables are numeric now, except
+# SleepTriuble which is a factor, but coded 0 for no and 1 for yes
+  
+# This time let's look at Age and Poverty instead
+# of Age and BMI
+#library(mosaic)
+# Create the grid
+#ages <- mosaic::range(~ Age, data = people)
+#povs <- mosaic::range(~ Poverty, data = people)
+#res <- 100
+#fake_grid <- expand.grid(
+#  Age = seq(from = ages[1], to = ages[2], length.out = res),
+#  Poverty = seq(from = povs[1], to = povs[2], length.out = res))
+
+#Get the overall proportion, p, of people with Sleep Trouble
+p <- sum(people$SleepTrouble == 1)/length(people$SleepTrouble)
+p
+
+# Null model prediction
+pred_null <- rep(p, nrow(people))
+
+form <- as.formula("SleepTrouble ~ .")
+
+#library(rpart)
+# Evaluate each model on each grid point
+# For the decision tree
+dmod_tree <- rpart(form, data = people, 
+                   control = rpart.control(cp = 0.005, minbucket = 30))
+
+# results summary
+dmod_tree
+
+# draw the tree - see example
+# in the help at help(plot.rpart)
+par(xpd = TRUE)
+plot(dmod_tree, compress = TRUE)
+text(dmod_tree, use.n = TRUE)
+# age and BMI are near the top, but 
+# so is Depressed and Poverty
+
+
+# For the forest
+set.seed(20371)
+#dmod_forest <- rfsrc(form, data = people, 
+#                     ntree = 201, mtry = 3)
+# try with randomForest instead of randomForestSRC package
+#library(randomForest)
+dmod_forest <- randomForest(form, data = people, 
+                     ntree = 201, mtry = 2)
+
+# results summary
+dmod_forest
+varImpPlot(dmod_forest)
+# you'll notice that BMI and Age are at the top
+# of this Variable Important plot
+# also near the top is the Poverty level
+
+# Now the predictions for tree and forest
+# just compute prediction from original data for now
+pred_tree <- predict(dmod_tree)[,1]
+summary(pred_tree)
+#table(pred_tree)
+
+# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
+#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
+#                       type = "prob")[, "Yes"]
+pred_forest <- predict(dmod_forest, type = "prob")[,1]
+summary(pred_forest)
+#table(pred_forest)
+
+# K-nearest neighbor prediction
+# but look at Age and Poverty
+pred_knn <- people %>%
+  knn(test=people, cl = people$SleepTrouble, k=5) %>%
+  as.numeric() - 1
+
+```
+
+Next, we want to build a dataframe with all of these predicted models, then `gather()` it into a long format.
+
+```{r}
+#library(tidyr)
+
+# build the data frame
+
+res <- people %>%
+  mutate(
+    "Null" = pred_null, 
+    "Decision Tree" = pred_tree,
+    "Random Forest" = pred_forest, 
+    "K-nearest neighbor" = pred_knn) %>%
+  gather(k="model", value = "y_hat", -Age, -Gender,
+         -MaritalStatus, -Poverty, -HomeOwn, -BMI,
+         -Diabetes, -HealthGen, -Depressed, -PhysActive,
+         -SleepTrouble)
+
+```
+
+Next let's plot all of these
+
+```{r}
+
+ggplot(data = res, aes(x = Age, y = Poverty)) +
+  geom_tile(aes(fill=y_hat), color = NA) +
+  geom_count(aes(color = SleepTrouble), alpha = 0.4, data = people) +
+  scale_fill_gradient(low = "white", high = "blue") +
+  scale_color_manual(values = c("gray", "gold")) +
+  scale_size(range = c(0,2)) +
+  scale_x_continuous(expand = c(0.02, 0)) +
+  scale_y_continuous(expand = c(0.02, 0)) +
+  facet_wrap(~model)
+
+```
+
+-----
+
+## PART 2 - Build "classifiers" for `SleepHrsNight`
+
+For each of the model types (null model, logistic regression, decision tree, random forest, k-nearest neighbor):
+
+* 1A. Build the classifier.
+* 1B. Report its effectiveness on the NHANES dataset.
+* 1C. Make an appropriate visualization of this model.
+* 1D. Interpret the results. What have you learned about people's sleeping habits?
 
 
 
