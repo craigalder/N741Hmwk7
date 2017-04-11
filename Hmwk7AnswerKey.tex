@@ -1,0 +1,2982 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Homework 7 Answer Key},
+            pdfauthor={Melinda K. Higgins, PhD.},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Homework 7 Answer Key}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Melinda K. Higgins, PhD.}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{April 6, 2017}
+
+
+\begin{document}
+\maketitle
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsection{Homework 7 - Assignment}\label{homework-7---assignment}
+
+Recall the NHANES dataset that we used in Lesson 10.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  In the dataset there is a discrete variable called SleepTrouble
+  indicating whether each participant has trouble sleeping or not. You
+  are going to build a set of classifiers for this dependent variable.
+  You may use any (set of) independent variable(s) you like except for
+  the variable callsed SleepHrsNight. For each of the model types (null
+  model, logistic regression, decision tree, random forest, k-nearest
+  neighbor) do the following:
+
+  1A. Build the classifier.
+
+  1B. Report its effectiveness on the NHANES dataset.
+
+  1C. Make an appropriate visualization of this model.
+
+  1D. Interpret the results. What have you learned about people's
+  sleeping habits?
+\item
+  Repeat problem 1 except now you are to use the quantitative variable
+  called SleepHrsNight. The model types are as follows: null model,
+  multiple regression, regression tree, random forest.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsection{Homework 7 - Answer Key}\label{homework-7---answer-key}
+
+Given the instructions providing in the assignment (above), it is useful
+to review the code and examples provided in ``lesson 10'' in
+Dr.~Hertzberg's Github repository at
+\url{https://github.com/vhertzb/Lesson10}. Specifically, review the
+steps in the \texttt{Lesson10.Rmd} R markdown file. This ``part 1''
+covered the code and steps for predicting \texttt{Diabetes} from these
+variables: \texttt{Age}, \texttt{Gender}, \texttt{BMI},
+\texttt{HHIncome}, and \texttt{PhysActive}. The code and examples shown
+include:
+
+\begin{itemize}
+\tightlist
+\item
+  the ``null'' model (i.e.~the proportion of people with diabetes versus
+  not)
+\item
+  running KNN (k-Nearest Neighbor Classification) (via \texttt{knn} from
+  the \texttt{class} package)
+\item
+  a decision tree (via \texttt{rpart()} from the \texttt{rpart} package)
+\item
+  and using \texttt{randomForest} from the \texttt{randomForest} package
+\end{itemize}
+
+\textbf{NOTE}: Lesson 10's \texttt{Lesson10.Rmd} R markdown did not
+include the code for running a logistic regression for Diabetes, but
+this was covered earlier around week 5; see
+\url{https://github.com/melindahiggins2000/N741linearlogmodels} when we
+covered generalized linear models. We also did more with logistic
+regression in week 6, see
+\url{https://github.com/melindahiggins2000/N741predict}.
+
+\subsubsection{Load the NHANES dataset and review the variables
+included}\label{load-the-nhanes-dataset-and-review-the-variables-included}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# load the NHANES package with the NHANES dataset}
+\KeywordTok{library}\NormalTok{(NHANES)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'NHANES' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# create a data object for the NHANES dataset}
+\NormalTok{dat1 <-}\StringTok{ }\NormalTok{NHANES}
+
+\CommentTok{# list all of the variables included}
+\KeywordTok{names}\NormalTok{(dat1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "ID"               "SurveyYr"         "Gender"          
+##  [4] "Age"              "AgeDecade"        "AgeMonths"       
+##  [7] "Race1"            "Race3"            "Education"       
+## [10] "MaritalStatus"    "HHIncome"         "HHIncomeMid"     
+## [13] "Poverty"          "HomeRooms"        "HomeOwn"         
+## [16] "Work"             "Weight"           "Length"          
+## [19] "HeadCirc"         "Height"           "BMI"             
+## [22] "BMICatUnder20yrs" "BMI_WHO"          "Pulse"           
+## [25] "BPSysAve"         "BPDiaAve"         "BPSys1"          
+## [28] "BPDia1"           "BPSys2"           "BPDia2"          
+## [31] "BPSys3"           "BPDia3"           "Testosterone"    
+## [34] "DirectChol"       "TotChol"          "UrineVol1"       
+## [37] "UrineFlow1"       "UrineVol2"        "UrineFlow2"      
+## [40] "Diabetes"         "DiabetesAge"      "HealthGen"       
+## [43] "DaysPhysHlthBad"  "DaysMentHlthBad"  "LittleInterest"  
+## [46] "Depressed"        "nPregnancies"     "nBabies"         
+## [49] "Age1stBaby"       "SleepHrsNight"    "SleepTrouble"    
+## [52] "PhysActive"       "PhysActiveDays"   "TVHrsDay"        
+## [55] "CompHrsDay"       "TVHrsDayChild"    "CompHrsDayChild" 
+## [58] "Alcohol12PlusYr"  "AlcoholDay"       "AlcoholYear"     
+## [61] "SmokeNow"         "Smoke100"         "Smoke100n"       
+## [64] "SmokeAge"         "Marijuana"        "AgeFirstMarij"   
+## [67] "RegularMarij"     "AgeRegMarij"      "HardDrugs"       
+## [70] "SexEver"          "SexAge"           "SexNumPartnLife" 
+## [73] "SexNumPartYear"   "SameSex"          "SexOrientation"  
+## [76] "PregnantNow"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# other packages needed}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.3.3
+\end{verbatim}
+
+\subsubsection{\texorpdfstring{Investigate the 2 Outcomes of Interest
+\texttt{SleepTrouble} and
+\texttt{SleepHrsNight}}{Investigate the 2 Outcomes of Interest SleepTrouble and SleepHrsNight}}\label{investigate-the-2-outcomes-of-interest-sleeptrouble-and-sleephrsnight}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(dat1$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(dat1$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   No  Yes NA's 
+## 5799 1973 2228
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(dat1$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(dat1$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   2.000   6.000   7.000   6.928   8.000  12.000    2245
+\end{verbatim}
+
+So, \texttt{SleepTrouble} is a ``Factor'' with 2 levels ``No'' and
+``Yes'' with some missing data ``NA''s.
+
+But \texttt{SleepHrsNight} is a numeric variable (specifically an
+integer) with values ranging from 2 to 12 hours per night.
+
+\subsubsection{\texorpdfstring{Visualize \texttt{SleepTrouble} Outcome
+of
+Interest}{Visualize SleepTrouble Outcome of Interest}}\label{visualize-sleeptrouble-outcome-of-interest}
+
+NOTE: \texttt{ggplot()} codes based on examples at ``Cookbook for R''
+website for the ``R Graphics Cookbook'' book at
+\url{http://www.cookbook-r.com/Graphs/}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Bar chart of Frequency/Counts for Skeep Trouble with NAs}
+\NormalTok{dat1 %>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepTrouble, }\DataTypeTok{fill=}\NormalTok{SleepTrouble)) +}
+\StringTok{    }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat=}\StringTok{"count"}\NormalTok{, }\DataTypeTok{colour=}\StringTok{"black"}\NormalTok{) +}
+\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Frequency of Subjects with Sleep Trouble"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\subsubsection{\texorpdfstring{You'll notice the following for
+\texttt{SleepTrouble}:}{You'll notice the following for SleepTrouble:}}\label{youll-notice-the-following-for-sleeptrouble}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  It is a factor with 2 levels with values of ``No and''Yes``, which we
+  can see by running \texttt{head(dat1\$SleepTrouble)}. It is important
+  to note this since some''classifier" procedures and functions in R
+  assume that the ``target'' variable is coded 0 or 1.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(dat1$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] Yes  Yes  Yes  <NA> Yes  <NA>
+## Levels: No Yes
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The majority of the subjects do NOT have Sleep Trouble - most are
+  ``No''s
+\item
+  There are also a decent number of NAs which will be removed in the
+  final analyses - or at least ignored. It will be important to know how
+  the chosen classifier function or procedure handles missing NA data.
+\end{enumerate}
+
+\subsubsection{\texorpdfstring{Visualize \texttt{SleepHrsNight} Outcome
+of
+Interest}{Visualize SleepHrsNight Outcome of Interest}}\label{visualize-sleephrsnight-outcome-of-interest}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Histogram overlaid with kernel density curve}
+\NormalTok{dat1 %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{..density..), }
+                   \DataTypeTok{binwidth=}\DecValTok{1}\NormalTok{,}
+                   \DataTypeTok{colour=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"yellow"}\NormalTok{) +}
+\StringTok{    }\KeywordTok{geom_density}\NormalTok{(}\DataTypeTok{alpha=}\NormalTok{.}\DecValTok{2}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"blue"}\NormalTok{, }\DataTypeTok{adjust=}\DecValTok{2}\NormalTok{) +}
+\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Histogram Density Plot of Sleep Hours Per Night"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 2245 rows containing non-finite values (stat_bin).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 2245 rows containing non-finite values (stat_density).
+\end{verbatim}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\subsubsection{\texorpdfstring{You'll notice the following for
+\texttt{SleepHrsNight}:}{You'll notice the following for SleepHrsNight:}}\label{youll-notice-the-following-for-sleephrsnight}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  There were still quite a few missing values as seen when we ran the
+  \texttt{summary(dat1\$SleepHrsNight)} above. It will be important to
+  know how the chosen classifier function or procedure handles missing
+  NA data.
+\item
+  Since this is a numeric outcome, the classifiers chosen will be
+  performing ``regression'' based models as opposed to ``category
+  probability'' type models like logistic regression.
+\item
+  That said, the distribution of \texttt{SleepHrsNight} is reasonably
+  symmetric and approximately normally distributed which is good with no
+  obvious outliers, even though the range of sleep times is wide from 2
+  to 12 hours, which is interesting.
+\end{enumerate}
+
+\subsection{\texorpdfstring{Overall Notes on \textbf{Open-Ended
+Approach} for This Homework 7
+Assignment}{Overall Notes on Open-Ended Approach for This Homework 7 Assignment}}\label{overall-notes-on-open-ended-approach-for-this-homework-7-assignment}
+
+While the NHANES dataset had 76 variables, it was intended for you to
+choose a subset you thought would be appropriate for
+predicting/classifying those with trouble sleeping and/or their time
+spent sleeping.
+
+A side note on sleep times - given that the hours spent sleeping was
+numeric and ordinal in nature and was symmetrically and approximately
+normally distributed, it was OK to approach modeling
+\texttt{SleepHrsNight} as a continuous/numeric outcome (i.e.~a
+``regression-type'' approach). However, it was also OK if you decided to
+recode this variable into subjects with low sleep times (say \textless{}
+7) versus more sleep. You could have also looked at recoding
+\texttt{SleephrsNight} into those with optimal sleep (7-9 hrs) versus
+less than optimal (which includes both those people with less than 7 hrs
+and more than 9 hrs - both too little and too much sleep can be
+problematic). Any of these approaches were OK.
+
+\subsection{\texorpdfstring{PART 1 - Build ``classifiers'' for
+\texttt{SleepTrouble}}{PART 1 - Build classifiers for SleepTrouble}}\label{part-1---build-classifiers-for-sleeptrouble}
+
+For each of the model types (null model, logistic regression, decision
+tree, random forest, k-nearest neighbor):
+
+\begin{itemize}
+\tightlist
+\item
+  1A. Build the classifier.
+\item
+  1B. Report its effectiveness on the NHANES dataset.
+\item
+  1C. Make an appropriate visualization of this model.
+\item
+  1D. Interpret the results. What have you learned about people's
+  sleeping habits?
+\end{itemize}
+
+\subsubsection{Pick a subset of likely variables for predicting Sleep
+Trouble}\label{pick-a-subset-of-likely-variables-for-predicting-sleep-trouble}
+
+For my approach, I'm choosing the following 10 variables as possible
+predictors of sleep problems:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  age
+\item
+  gender
+\item
+  marital status
+\item
+  poverty
+\item
+  home ownership
+\item
+  BMI
+\item
+  Diabetes
+\item
+  health in general
+\item
+  depressed
+\item
+  physically active
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# build dataset for these 10 variables and SleepTrouble}
+\NormalTok{people <-}\StringTok{ }\NormalTok{NHANES %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, Gender, MaritalStatus, Poverty, HomeOwn,}
+         \NormalTok{BMI, Diabetes, HealthGen, Depressed, PhysActive,}
+         \NormalTok{SleepTrouble) }
+
+\CommentTok{# run summary}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age           Gender          MaritalStatus     Poverty     
+##  Min.   : 0.00   female:5020   Divorced    : 707   Min.   :0.000  
+##  1st Qu.:17.00   male  :4980   LivePartner : 560   1st Qu.:1.240  
+##  Median :36.00                 Married     :3945   Median :2.700  
+##  Mean   :36.74                 NeverMarried:1380   Mean   :2.802  
+##  3rd Qu.:54.00                 Separated   : 183   3rd Qu.:4.710  
+##  Max.   :80.00                 Widowed     : 456   Max.   :5.000  
+##                                NA's        :2769   NA's   :726    
+##   HomeOwn          BMI        Diabetes        HealthGen      Depressed   
+##  Own  :6425   Min.   :12.88   No  :9098   Excellent: 878   None   :5246  
+##  Rent :3287   1st Qu.:21.58   Yes : 760   Vgood    :2508   Several:1009  
+##  Other: 225   Median :25.98   NA's: 142   Good     :2956   Most   : 418  
+##  NA's :  63   Mean   :26.66               Fair     :1010   NA's   :3327  
+##               3rd Qu.:30.89               Poor     : 187                 
+##               Max.   :81.25               NA's     :2461                 
+##               NA's   :366                                                
+##  PhysActive  SleepTrouble
+##  No  :3677   No  :5799   
+##  Yes :4649   Yes :1973   
+##  NA's:1674   NA's:2228   
+##                          
+##                          
+##                          
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert back to dataframe}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(people)}
+\KeywordTok{glimpse}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Observations: 10,000
+## Variables: 11
+## $ Age           <int> 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 54,...
+## $ Gender        <fctr> male, male, male, male, female, male, male, fem...
+## $ MaritalStatus <fctr> Married, Married, Married, NA, LivePartner, NA,...
+## $ Poverty       <dbl> 1.36, 1.36, 1.36, 1.07, 1.91, 1.84, 2.33, 5.00, ...
+## $ HomeOwn       <fctr> Own, Own, Own, Own, Rent, Rent, Own, Own, Own, ...
+## $ BMI           <dbl> 32.22, 32.22, 32.22, 15.30, 30.57, 16.82, 20.64,...
+## $ Diabetes      <fctr> No, No, No, No, No, No, No, No, No, No, No, No,...
+## $ HealthGen     <fctr> Good, Good, Good, NA, Good, NA, NA, Vgood, Vgoo...
+## $ Depressed     <fctr> Several, Several, Several, NA, Several, NA, NA,...
+## $ PhysActive    <fctr> No, No, No, NA, No, NA, NA, Yes, Yes, Yes, Yes,...
+## $ SleepTrouble  <fctr> Yes, Yes, Yes, NA, Yes, NA, NA, No, No, No, No,...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert factors to numeric - the packages just seem to work better that way}
+\NormalTok{people$Gender <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Gender)}
+\NormalTok{people$MaritalStatus <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$MaritalStatus)}
+\NormalTok{people$HomeOwn <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HomeOwn)}
+\NormalTok{people$Diabetes <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Diabetes)}
+\NormalTok{people$HealthGen <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HealthGen)}
+\NormalTok{people$Depressed <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Depressed)}
+\NormalTok{people$PhysActive <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$PhysActive)}
+\NormalTok{people$SleepTrouble <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$SleepTrouble)}
+
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   : 0.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:17.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.240  
+##  Median :36.00   Median :1.000   Median :3.000   Median :2.700  
+##  Mean   :36.74   Mean   :1.498   Mean   :3.158   Mean   :2.802  
+##  3rd Qu.:54.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:4.710  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##                                  NA's   :2769    NA's   :726    
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :12.88   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:21.58   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :25.98   Median :1.000   Median :3.000  
+##  Mean   :1.376   Mean   :26.66   Mean   :1.077   Mean   :2.618  
+##  3rd Qu.:2.000   3rd Qu.:30.89   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##  NA's   :63      NA's   :366     NA's   :142     NA's   :2461   
+##    Depressed       PhysActive     SleepTrouble  
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:1.000   1st Qu.:1.000  
+##  Median :1.000   Median :2.000   Median :1.000  
+##  Mean   :1.276   Mean   :1.558   Mean   :1.254  
+##  3rd Qu.:1.000   3rd Qu.:2.000   3rd Qu.:2.000  
+##  Max.   :3.000   Max.   :2.000   Max.   :2.000  
+##  NA's   :3327    NA's   :1674    NA's   :2228
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10000    11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# drop any cases/rows with missing data}
+\CommentTok{# this step creates a complete cases dataset}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(people)}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   :20.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:33.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.390  
+##  Median :47.00   Median :2.000   Median :3.000   Median :3.020  
+##  Mean   :47.36   Mean   :1.504   Mean   :3.133   Mean   :2.991  
+##  3rd Qu.:60.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:5.000  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :15.02   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:24.20   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :27.90   Median :1.000   Median :3.000  
+##  Mean   :1.343   Mean   :28.91   Mean   :1.104   Mean   :2.628  
+##  3rd Qu.:2.000   3rd Qu.:32.35   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##    Depressed       PhysActive    SleepTrouble  
+##  Min.   :1.000   Min.   :1.00   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:1.00   1st Qu.:1.000  
+##  Median :1.000   Median :2.00   Median :1.000  
+##  Mean   :1.271   Mean   :1.54   Mean   :1.269  
+##  3rd Qu.:1.000   3rd Qu.:2.00   3rd Qu.:2.000  
+##  Max.   :3.000   Max.   :2.00   Max.   :2.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5981   11
+\end{verbatim}
+
+\subsubsection{Run Logistic Regression - predict Sleep
+Trouble}\label{run-logistic-regression---predict-sleep-trouble}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# recode SleepTrouble into 0 (for no sleep trouble)}
+\CommentTok{# and 1 (for yes Sleep Trouble); so we need to recode}
+\CommentTok{# values of 2 (which were yes) to 1. We'll use}
+\CommentTok{# the double equals to find all TRUE values and then convert}
+\CommentTok{# the logical results into 0's and 1's.}
+\NormalTok{people$SleepTrouble <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$SleepTrouble==}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{# model SleepTrouble by rest of variables in people dataset}
+\NormalTok{fmla <-}\StringTok{ "SleepTrouble ~ ."}
+
+\NormalTok{logreg <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(fmla, }
+              \DataTypeTok{data=}\NormalTok{people, }
+              \DataTypeTok{family=}\KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link=}\StringTok{"logit"}\NormalTok{))}
+
+\KeywordTok{summary}\NormalTok{(logreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = fmla, family = binomial(link = "logit"), data = people)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.7326  -0.7861  -0.6401   0.9940   2.2782  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   -3.679708   0.304805 -12.072  < 2e-16 ***
+## Age            0.014720   0.002031   7.246 4.29e-13 ***
+## Gender        -0.424648   0.061626  -6.891 5.55e-12 ***
+## MaritalStatus -0.075883   0.026265  -2.889 0.003863 ** 
+## Poverty        0.045281   0.021378   2.118 0.034166 *  
+## HomeOwn        0.160152   0.065696   2.438 0.014779 *  
+## BMI            0.007454   0.004646   1.604 0.108650    
+## Diabetes       0.108480   0.100313   1.081 0.279516    
+## HealthGen      0.336741   0.037112   9.074  < 2e-16 ***
+## Depressed      0.667273   0.051389  12.985  < 2e-16 ***
+## PhysActive     0.232138   0.065956   3.520 0.000432 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 6959.2  on 5980  degrees of freedom
+## Residual deviance: 6492.1  on 5970  degrees of freedom
+## AIC: 6514.1
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(logreg, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\CommentTok{# plot predicted probabilities}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{pred, }\DataTypeTok{color=}\KeywordTok{as.factor}\NormalTok{(SleepTrouble), }
+           \DataTypeTok{linetype=}\KeywordTok{as.factor}\NormalTok{(SleepTrouble))) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{() +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Predicted Probability for Sleep Trouble"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pick a threshold and get confusion (prediction) matrix}
+\CommentTok{# test a classifier with a threshold > 0.20}
+\NormalTok{ctab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\DataTypeTok{pred=}\NormalTok{people$pred>}\FloatTok{0.2}\NormalTok{, }\DataTypeTok{SleepTrouble=}\NormalTok{people$SleepTrouble)}
+\NormalTok{ctab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        SleepTrouble
+## pred       0    1
+##   FALSE 1691  333
+##   TRUE  2684 1273
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute precision = true positives / predicted true}
+\NormalTok{precision <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[}\DecValTok{2}\NormalTok{,])}
+\NormalTok{precision}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3217084
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute recall = true positives / actual true}
+\NormalTok{recall <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{recall}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7926526
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# look at ROC curve}
+\KeywordTok{library}\NormalTok{(pROC)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'pROC' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## Type 'citation("pROC")' for a citation.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'pROC'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     cov, smooth, var
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{roccurve <-}\StringTok{ }\KeywordTok{roc}\NormalTok{(people$SleepTrouble ~}\StringTok{ }\NormalTok{people$pred)}
+\KeywordTok{plot}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pull out just the AUC statistic}
+\KeywordTok{auc}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Area under the curve: 0.6681
+\end{verbatim}
+
+\subsubsection{NULL MODEL for Logistic
+Regression}\label{null-model-for-logistic-regression}
+
+We didn't cover this in class, but to get an ``intercept-only'' model
+you use a formula in the form of \texttt{outcome\ \textasciitilde{}\ 1}
+which basically says model the \texttt{outcome} variable as a function
+of the intercept indicated by the \texttt{1}. This formula can be used
+for any generalized linear modeling approach (linear regression,
+logistic regression, Poisson regression, etc). You'll notice in running
+the code steps below that using the intercept only approach does no
+better than flipping a coin which you see for the ROC curve which is a
+straight line and the AUC is 0.5 (50/50 guessing does as well as this
+null model with no predictors). You always want the AUC to be
+\textgreater{}0.5 and as close to 1.0 as possible. AUCs
+\textgreater{}0.7 are ok but you really want AUCs \textgreater{}0.8 and
+\textgreater{}0.9 is even better.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# NULL MODEL for Logistic Regression }
+\CommentTok{# is basically an intercept-only model with no predictors}
+\NormalTok{logreg.null <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(SleepTrouble ~}\StringTok{ }\DecValTok{1}\NormalTok{, }
+                   \DataTypeTok{data=}\NormalTok{people, }
+                   \DataTypeTok{family=}\KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link=}\StringTok{"logit"}\NormalTok{))}
+
+\KeywordTok{summary}\NormalTok{(logreg.null)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = SleepTrouble ~ 1, family = binomial(link = "logit"), 
+##     data = people)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.7908  -0.7908  -0.7908   1.6216   1.6216  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -1.00216    0.02918  -34.35   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 6959.2  on 5980  degrees of freedom
+## Residual deviance: 6959.2  on 5980  degrees of freedom
+## AIC: 6961.2
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred.null <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(logreg.null, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\CommentTok{# plot predicted probabilities}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{pred.null, }\DataTypeTok{color=}\KeywordTok{as.factor}\NormalTok{(SleepTrouble), }
+           \DataTypeTok{linetype=}\KeywordTok{as.factor}\NormalTok{(SleepTrouble))) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{() +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Predicted Probability for Sleep Trouble - Null Model"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pick a threshold and get confusion (prediction) matrix}
+\CommentTok{# test a classifier with a threshold > 0.30}
+\NormalTok{ctab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\DataTypeTok{pred=}\NormalTok{people$pred>}\FloatTok{0.3}\NormalTok{, }\DataTypeTok{SleepTrouble=}\NormalTok{people$SleepTrouble)}
+\NormalTok{ctab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        SleepTrouble
+## pred       0    1
+##   FALSE 3298  855
+##   TRUE  1077  751
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute precision = true positives / predicted true}
+\NormalTok{precision <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[}\DecValTok{2}\NormalTok{,])}
+\NormalTok{precision}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4108315
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute recall = true positives / actual true}
+\NormalTok{recall <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{recall}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4676214
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# look at ROC curve}
+\CommentTok{#library(pROC)}
+\NormalTok{roccurve <-}\StringTok{ }\KeywordTok{roc}\NormalTok{(people$SleepTrouble ~}\StringTok{ }\NormalTok{people$pred.null)}
+\KeywordTok{plot}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pull out just the AUC statistic}
+\KeywordTok{auc}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Area under the curve: 0.5
+\end{verbatim}
+
+\subsubsection{Try KNN to predict Sleep
+Trouble}\label{try-knn-to-predict-sleep-trouble}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# for knn, rpart and randomForest, set SleepTrouble}
+\CommentTok{# back to being a factor}
+\NormalTok{people$SleepTrouble <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(people$SleepTrouble)}
+
+\CommentTok{# Apply knn procedure to predict Diabetes}
+\CommentTok{# use the knn procedure in the class package}
+\KeywordTok{library}\NormalTok{(class)}
+
+\CommentTok{# Let's try different values of k to see how that affects performance}
+\NormalTok{knn}\FloatTok{.1} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k =} \DecValTok{1}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.3} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k =} \DecValTok{3}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.5} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k =} \DecValTok{5}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.20} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k =} \DecValTok{20}\NormalTok{)}
+
+\CommentTok{# see how well they classified}
+\CommentTok{# Calculate the percent predicted correctly}
+
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\NormalTok{knn}\FloatTok{.1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\NormalTok{knn}\FloatTok{.3}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 90.80421
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\NormalTok{knn}\FloatTok{.5}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 86.92526
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\NormalTok{knn}\FloatTok{.20}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 78.18091
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#overall success}
+\CommentTok{# Another way to look at success rate against increasing k}
+
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.1}\NormalTok{, people$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.1    0    1
+##     0 4375    0
+##     1    0 1606
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.3}\NormalTok{, people$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.3    0    1
+##     0 4181  356
+##     1  194 1250
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.5}\NormalTok{, people$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.5    0    1
+##     0 4158  565
+##     1  217 1041
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.20}\NormalTok{, people$SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       
+## knn.20    0    1
+##      0 4270 1200
+##      1  105  406
+\end{verbatim}
+
+\subsubsection{(Version 1) The ensemble method - using the approach from
+lesson 10 with Age and
+BMI}\label{version-1-the-ensemble-method---using-the-approach-from-lesson-10-with-age-and-bmi}
+
+The example here uses the same basic code we did in class for lesson 10.
+This looks at just Age and BMI and no other variables considered in the
+decision tree and random forest models. The plots also just consider Age
+and BMI.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(mosaic)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'mosaic' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'lattice' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: mosaicData
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'mosaicData' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'Matrix' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## The 'mosaic' package masks several functions from core packages in order to add additional features.  
+## The original behavior of these functions should not be affected by this.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'mosaic'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:Matrix':
+## 
+##     mean
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:pROC':
+## 
+##     cov, var
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     count, do, tally
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     binom.test, cor, cov, D, fivenum, IQR, median, prop.test,
+##     quantile, sd, t.test, var
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     max, mean, min, prod, range, sample, sum
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Create the grid}
+\NormalTok{ages <-}\StringTok{ }\NormalTok{mosaic::}\KeywordTok{range}\NormalTok{(~}\StringTok{ }\NormalTok{Age, }\DataTypeTok{data =} \NormalTok{people)}
+\NormalTok{bmis <-}\StringTok{ }\NormalTok{mosaic::}\KeywordTok{range}\NormalTok{(~}\StringTok{ }\NormalTok{BMI, }\DataTypeTok{data =} \NormalTok{people)}
+\NormalTok{res <-}\StringTok{ }\DecValTok{100}
+\NormalTok{fake_grid <-}\StringTok{ }\KeywordTok{expand.grid}\NormalTok{(}
+  \DataTypeTok{Age =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \NormalTok{ages[}\DecValTok{1}\NormalTok{], }\DataTypeTok{to =} \NormalTok{ages[}\DecValTok{2}\NormalTok{], }\DataTypeTok{length.out =} \NormalTok{res),}
+  \DataTypeTok{BMI =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \NormalTok{bmis[}\DecValTok{1}\NormalTok{], }\DataTypeTok{to =} \NormalTok{bmis[}\DecValTok{2}\NormalTok{], }\DataTypeTok{length.out =} \NormalTok{res))}
+
+\CommentTok{#Get the overall proportion, p, of people with Sleep Trouble}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\DecValTok{1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(people$SleepTrouble)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.268517
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Null model prediction}
+\NormalTok{pred_null <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(p, }\KeywordTok{nrow}\NormalTok{(fake_grid))}
+
+\NormalTok{form <-}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\StringTok{"SleepTrouble ~ Age + BMI"}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(rpart)}
+\CommentTok{# Evaluate each model on each grid point}
+\CommentTok{# For the decision tree}
+\NormalTok{dmod_tree <-}\StringTok{ }\KeywordTok{rpart}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                   \DataTypeTok{control =} \KeywordTok{rpart.control}\NormalTok{(}\DataTypeTok{cp =} \FloatTok{0.005}\NormalTok{, }\DataTypeTok{minbucket =} \DecValTok{30}\NormalTok{))}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_tree}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## n= 5981 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 5981 1606 0 (0.7314830 0.2685170) *
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# For the forest}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20371}\NormalTok{)}
+\CommentTok{#dmod_forest <- rfsrc(form, data = people, }
+\CommentTok{#                     ntree = 201, mtry = 3)}
+\CommentTok{# try with randomForest instead of randomForestSRC package}
+\KeywordTok{library}\NormalTok{(randomForest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## randomForest 4.6-12
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'randomForest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dmod_forest <-}\StringTok{ }\KeywordTok{randomForest}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                     \DataTypeTok{ntree =} \DecValTok{201}\NormalTok{, }\DataTypeTok{mtry =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_forest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+##  randomForest(formula = form, data = people, ntree = 201, mtry = 2) 
+##                Type of random forest: classification
+##                      Number of trees: 201
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 14.18%
+## Confusion matrix:
+##      0    1 class.error
+## 0 4011  364   0.0832000
+## 1  484 1122   0.3013699
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Now the predictions for tree and forest}
+\CommentTok{#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]}
+\NormalTok{pred_tree <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_tree, }\DataTypeTok{newdata =} \NormalTok{fake_grid)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.7315  0.7315  0.7315  0.7315  0.7315  0.7315
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_tree)}
+
+\CommentTok{# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]}
+\CommentTok{#pred_forest <- predict(dmod_forest, newdata = fake_grid, }
+\CommentTok{#                       type = "prob")[, "Yes"]}
+\NormalTok{pred_forest <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_forest, }\DataTypeTok{newdata =} \NormalTok{fake_grid, }\DataTypeTok{type =} \StringTok{"prob"}\NormalTok{)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.004975 0.447800 0.666700 0.633400 0.850700 1.000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_forest)}
+
+\CommentTok{# K-nearest neighbor prediction}
+\NormalTok{pred_knn <-}\StringTok{ }\NormalTok{people %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, BMI) %>%}
+\StringTok{  }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{test=}\KeywordTok{select}\NormalTok{(fake_grid, Age, BMI), }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k=}\DecValTok{5}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{as.numeric}\NormalTok{() -}\StringTok{ }\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we want to build a dataframe with all of these predicted models,
+then \texttt{gather()} it into a long format.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.3.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'tidyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:Matrix':
+## 
+##     expand
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# build the data frame}
+\NormalTok{res <-}\StringTok{ }\NormalTok{fake_grid %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \StringTok{"Null"} \NormalTok{=}\StringTok{ }\NormalTok{pred_null, }
+    \StringTok{"Decision Tree"} \NormalTok{=}\StringTok{ }\NormalTok{pred_tree,}
+    \StringTok{"Random Forest"} \NormalTok{=}\StringTok{ }\NormalTok{pred_forest, }
+    \StringTok{"K-nearest neighbor"} \NormalTok{=}\StringTok{ }\NormalTok{pred_knn) %>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{k=}\StringTok{"model"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"y_hat"}\NormalTok{, -Age, -BMI)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: attributes are not identical across measure variables; they will
+## be dropped
+\end{verbatim}
+
+Next let's plot all of these
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \NormalTok{res, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Age, }\DataTypeTok{y =} \NormalTok{BMI)) +}
+\StringTok{  }\KeywordTok{geom_tile}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill=}\NormalTok{y_hat), }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{) +}
+\StringTok{  }\KeywordTok{geom_count}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =} \NormalTok{SleepTrouble), }\DataTypeTok{alpha =} \FloatTok{0.4}\NormalTok{, }\DataTypeTok{data =} \NormalTok{people) +}
+\StringTok{  }\KeywordTok{scale_fill_gradient}\NormalTok{(}\DataTypeTok{low =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{high =} \StringTok{"blue"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"gray"}\NormalTok{, }\StringTok{"gold"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_size}\NormalTok{(}\DataTypeTok{range =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~model)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\subsubsection{(Version 2): The ensemble method - using all 10 variables
+I
+choose}\label{version-2-the-ensemble-method---using-all-10-variables-i-choose}
+
+The decision tree (\texttt{rpart}) and random forest models below use
+the 10 variables I selected. I then modified the plots to look at the
+effects of Age and Poverty insead of Age and BMI. I also added plots to
+show the decision tree and the variable importance plot from random
+forest so you can see that indeed BMI, Age and Poverty are indeed
+important in predicting sleep trouble.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people <-}\StringTok{ }\NormalTok{people %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, Gender, MaritalStatus, Poverty,}
+         \NormalTok{HomeOwn, BMI, Diabetes, HealthGen, Depressed,}
+         \NormalTok{PhysActive, SleepTrouble)}
+  
+\CommentTok{# note: all variables are numeric now, except}
+\CommentTok{# SleepTriuble which is a factor, but coded 0 for no and 1 for yes}
+  
+\CommentTok{# This time let's look at Age and Poverty instead}
+\CommentTok{# of Age and BMI}
+\CommentTok{#library(mosaic)}
+\CommentTok{# Create the grid}
+\CommentTok{#ages <- mosaic::range(~ Age, data = people)}
+\CommentTok{#povs <- mosaic::range(~ Poverty, data = people)}
+\CommentTok{#res <- 100}
+\CommentTok{#fake_grid <- expand.grid(}
+\CommentTok{#  Age = seq(from = ages[1], to = ages[2], length.out = res),}
+\CommentTok{#  Poverty = seq(from = povs[1], to = povs[2], length.out = res))}
+
+\CommentTok{#Get the overall proportion, p, of people with Sleep Trouble}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(people$SleepTrouble ==}\StringTok{ }\DecValTok{1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(people$SleepTrouble)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.268517
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Null model prediction}
+\NormalTok{pred_null <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(p, }\KeywordTok{nrow}\NormalTok{(people))}
+
+\NormalTok{form <-}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\StringTok{"SleepTrouble ~ ."}\NormalTok{)}
+
+\CommentTok{#library(rpart)}
+\CommentTok{# Evaluate each model on each grid point}
+\CommentTok{# For the decision tree}
+\NormalTok{dmod_tree <-}\StringTok{ }\KeywordTok{rpart}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                   \DataTypeTok{control =} \KeywordTok{rpart.control}\NormalTok{(}\DataTypeTok{cp =} \FloatTok{0.005}\NormalTok{, }\DataTypeTok{minbucket =} \DecValTok{30}\NormalTok{))}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_tree}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## n= 5981 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+##   1) root 5981 1606 0 (0.7314830 0.2685170)  
+##     2) Depressed< 1.5 4721 1055 0 (0.7765304 0.2234696)  
+##       4) Age< 43.5 2050  345 0 (0.8317073 0.1682927) *
+##       5) Age>=43.5 2671  710 0 (0.7341820 0.2658180)  
+##        10) BMI< 38.985 2489  624 0 (0.7492969 0.2507031) *
+##        11) BMI>=38.985 182   86 0 (0.5274725 0.4725275)  
+##          22) Poverty< 4.965 129   47 0 (0.6356589 0.3643411) *
+##          23) Poverty>=4.965 53   14 1 (0.2641509 0.7358491) *
+##     3) Depressed>=1.5 1260  551 0 (0.5626984 0.4373016)  
+##       6) Age< 33.5 325  100 0 (0.6923077 0.3076923) *
+##       7) Age>=33.5 935  451 0 (0.5176471 0.4823529)  
+##        14) HealthGen< 2.5 258   88 0 (0.6589147 0.3410853) *
+##        15) HealthGen>=2.5 677  314 1 (0.4638109 0.5361891)  
+##          30) Depressed< 2.5 453  213 0 (0.5298013 0.4701987)  
+##            60) Gender>=1.5 219   86 0 (0.6073059 0.3926941) *
+##            61) Gender< 1.5 234  107 1 (0.4572650 0.5427350)  
+##             122) Poverty>=2.69 87   33 0 (0.6206897 0.3793103) *
+##             123) Poverty< 2.69 147   53 1 (0.3605442 0.6394558) *
+##          31) Depressed>=2.5 224   74 1 (0.3303571 0.6696429) *
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# draw the tree - see example}
+\CommentTok{# in the help at help(plot.rpart)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{xpd =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(dmod_tree, }\DataTypeTok{compress =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(dmod_tree, }\DataTypeTok{use.n =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# age and BMI are near the top, but }
+\CommentTok{# so is Depressed and Poverty}
+
+
+\CommentTok{# For the forest}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20371}\NormalTok{)}
+\CommentTok{#dmod_forest <- rfsrc(form, data = people, }
+\CommentTok{#                     ntree = 201, mtry = 3)}
+\CommentTok{# try with randomForest instead of randomForestSRC package}
+\CommentTok{#library(randomForest)}
+\NormalTok{dmod_forest <-}\StringTok{ }\KeywordTok{randomForest}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                     \DataTypeTok{ntree =} \DecValTok{201}\NormalTok{, }\DataTypeTok{mtry =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_forest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+##  randomForest(formula = form, data = people, ntree = 201, mtry = 2) 
+##                Type of random forest: classification
+##                      Number of trees: 201
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 18.66%
+## Confusion matrix:
+##      0   1 class.error
+## 0 4283  92  0.02102857
+## 1 1024 582  0.63760897
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{varImpPlot}\NormalTok{(dmod_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-13-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# you'll notice that BMI and Age are at the top}
+\CommentTok{# of this Variable Important plot}
+\CommentTok{# also near the top is the Poverty level}
+
+\CommentTok{# Now the predictions for tree and forest}
+\CommentTok{# just compute prediction from original data for now}
+\NormalTok{pred_tree <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_tree)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.2642  0.7493  0.7493  0.7315  0.8317  0.8317
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_tree)}
+
+\CommentTok{# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]}
+\CommentTok{#pred_forest <- predict(dmod_forest, newdata = fake_grid, }
+\CommentTok{#                       type = "prob")[, "Yes"]}
+\NormalTok{pred_forest <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_forest, }\DataTypeTok{type =} \StringTok{"prob"}\NormalTok{)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.02778 0.70110 0.88610 0.80180 0.96050 1.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_forest)}
+
+\CommentTok{# K-nearest neighbor prediction}
+\CommentTok{# but look at Age and Poverty}
+\NormalTok{pred_knn <-}\StringTok{ }\NormalTok{people %>%}
+\StringTok{  }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{test=}\NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepTrouble, }\DataTypeTok{k=}\DecValTok{5}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{as.numeric}\NormalTok{() -}\StringTok{ }\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we want to build a dataframe with all of these predicted models,
+then \texttt{gather()} it into a long format.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#library(tidyr)}
+
+\CommentTok{# build the data frame}
+
+\NormalTok{res <-}\StringTok{ }\NormalTok{people %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \StringTok{"Null"} \NormalTok{=}\StringTok{ }\NormalTok{pred_null, }
+    \StringTok{"Decision Tree"} \NormalTok{=}\StringTok{ }\NormalTok{pred_tree,}
+    \StringTok{"Random Forest"} \NormalTok{=}\StringTok{ }\NormalTok{pred_forest, }
+    \StringTok{"K-nearest neighbor"} \NormalTok{=}\StringTok{ }\NormalTok{pred_knn) %>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{k=}\StringTok{"model"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"y_hat"}\NormalTok{, -Age, -Gender,}
+         \NormalTok{-MaritalStatus, -Poverty, -HomeOwn, -BMI,}
+         \NormalTok{-Diabetes, -HealthGen, -Depressed, -PhysActive,}
+         \NormalTok{-SleepTrouble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: attributes are not identical across measure variables; they will
+## be dropped
+\end{verbatim}
+
+Next let's plot all of these
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \NormalTok{res, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Age, }\DataTypeTok{y =} \NormalTok{Poverty)) +}
+\StringTok{  }\KeywordTok{geom_tile}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill=}\NormalTok{y_hat), }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{) +}
+\StringTok{  }\KeywordTok{geom_count}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =} \NormalTok{SleepTrouble), }\DataTypeTok{alpha =} \FloatTok{0.4}\NormalTok{, }\DataTypeTok{data =} \NormalTok{people) +}
+\StringTok{  }\KeywordTok{scale_fill_gradient}\NormalTok{(}\DataTypeTok{low =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{high =} \StringTok{"blue"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"gray"}\NormalTok{, }\StringTok{"gold"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_size}\NormalTok{(}\DataTypeTok{range =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~model)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsection{\texorpdfstring{PART 2 - Build ``classifiers'' for
+\texttt{SleepHrsNight}}{PART 2 - Build classifiers for SleepHrsNight}}\label{part-2---build-classifiers-for-sleephrsnight}
+
+For each of the model types (null model, logistic regression, decision
+tree, random forest, k-nearest neighbor):
+
+\begin{itemize}
+\tightlist
+\item
+  1A. Build the classifier.
+\item
+  1B. Report its effectiveness on the NHANES dataset.
+\item
+  1C. Make an appropriate visualization of this model.
+\item
+  1D. Interpret the results. What have you learned about people's
+  sleeping habits?
+\end{itemize}
+
+\subsubsection{\texorpdfstring{Suppose we recode \texttt{SleepHrsNight}
+into optimal and suboptimal
+sleep}{Suppose we recode SleepHrsNight into optimal and suboptimal sleep}}\label{suppose-we-recode-sleephrsnight-into-optimal-and-suboptimal-sleep}
+
+To use the code similar to what we did above, it'll be best to create a
+categorical.binary outcome. Let's suppose that if the person got 7-9
+hours of sleep each night that is optimal sleep time, but any sleep
+times less than 7 hours or more than 9 hours is considered suboptimal.
+
+I'll use the same approach as above and same variable subset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# build dataset for these 10 variables and SleepHrsNight}
+\NormalTok{people <-}\StringTok{ }\NormalTok{NHANES %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, Gender, MaritalStatus, Poverty, HomeOwn,}
+         \NormalTok{BMI, Diabetes, HealthGen, Depressed, PhysActive,}
+         \NormalTok{SleepHrsNight) }
+
+\CommentTok{# run summary}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age           Gender          MaritalStatus     Poverty     
+##  Min.   : 0.00   female:5020   Divorced    : 707   Min.   :0.000  
+##  1st Qu.:17.00   male  :4980   LivePartner : 560   1st Qu.:1.240  
+##  Median :36.00                 Married     :3945   Median :2.700  
+##  Mean   :36.74                 NeverMarried:1380   Mean   :2.802  
+##  3rd Qu.:54.00                 Separated   : 183   3rd Qu.:4.710  
+##  Max.   :80.00                 Widowed     : 456   Max.   :5.000  
+##                                NA's        :2769   NA's   :726    
+##   HomeOwn          BMI        Diabetes        HealthGen      Depressed   
+##  Own  :6425   Min.   :12.88   No  :9098   Excellent: 878   None   :5246  
+##  Rent :3287   1st Qu.:21.58   Yes : 760   Vgood    :2508   Several:1009  
+##  Other: 225   Median :25.98   NA's: 142   Good     :2956   Most   : 418  
+##  NA's :  63   Mean   :26.66               Fair     :1010   NA's   :3327  
+##               3rd Qu.:30.89               Poor     : 187                 
+##               Max.   :81.25               NA's     :2461                 
+##               NA's   :366                                                
+##  PhysActive  SleepHrsNight   
+##  No  :3677   Min.   : 2.000  
+##  Yes :4649   1st Qu.: 6.000  
+##  NA's:1674   Median : 7.000  
+##              Mean   : 6.928  
+##              3rd Qu.: 8.000  
+##              Max.   :12.000  
+##              NA's   :2245
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert back to dataframe}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(people)}
+\KeywordTok{glimpse}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Observations: 10,000
+## Variables: 11
+## $ Age           <int> 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 54,...
+## $ Gender        <fctr> male, male, male, male, female, male, male, fem...
+## $ MaritalStatus <fctr> Married, Married, Married, NA, LivePartner, NA,...
+## $ Poverty       <dbl> 1.36, 1.36, 1.36, 1.07, 1.91, 1.84, 2.33, 5.00, ...
+## $ HomeOwn       <fctr> Own, Own, Own, Own, Rent, Rent, Own, Own, Own, ...
+## $ BMI           <dbl> 32.22, 32.22, 32.22, 15.30, 30.57, 16.82, 20.64,...
+## $ Diabetes      <fctr> No, No, No, No, No, No, No, No, No, No, No, No,...
+## $ HealthGen     <fctr> Good, Good, Good, NA, Good, NA, NA, Vgood, Vgoo...
+## $ Depressed     <fctr> Several, Several, Several, NA, Several, NA, NA,...
+## $ PhysActive    <fctr> No, No, No, NA, No, NA, NA, Yes, Yes, Yes, Yes,...
+## $ SleepHrsNight <int> 4, 4, 4, NA, 8, NA, NA, 8, 8, 8, 7, 5, 4, NA, 5,...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert factors to numeric - the packages just seem to work better that way}
+\NormalTok{people$Gender <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Gender)}
+\NormalTok{people$MaritalStatus <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$MaritalStatus)}
+\NormalTok{people$HomeOwn <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HomeOwn)}
+\NormalTok{people$Diabetes <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Diabetes)}
+\NormalTok{people$HealthGen <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HealthGen)}
+\NormalTok{people$Depressed <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Depressed)}
+\NormalTok{people$PhysActive <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$PhysActive)}
+\NormalTok{people$SleepHrsNight <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$SleepHrsNight)}
+
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   : 0.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:17.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.240  
+##  Median :36.00   Median :1.000   Median :3.000   Median :2.700  
+##  Mean   :36.74   Mean   :1.498   Mean   :3.158   Mean   :2.802  
+##  3rd Qu.:54.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:4.710  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##                                  NA's   :2769    NA's   :726    
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :12.88   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:21.58   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :25.98   Median :1.000   Median :3.000  
+##  Mean   :1.376   Mean   :26.66   Mean   :1.077   Mean   :2.618  
+##  3rd Qu.:2.000   3rd Qu.:30.89   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##  NA's   :63      NA's   :366     NA's   :142     NA's   :2461   
+##    Depressed       PhysActive    SleepHrsNight   
+##  Min.   :1.000   Min.   :1.000   Min.   : 2.000  
+##  1st Qu.:1.000   1st Qu.:1.000   1st Qu.: 6.000  
+##  Median :1.000   Median :2.000   Median : 7.000  
+##  Mean   :1.276   Mean   :1.558   Mean   : 6.928  
+##  3rd Qu.:1.000   3rd Qu.:2.000   3rd Qu.: 8.000  
+##  Max.   :3.000   Max.   :2.000   Max.   :12.000  
+##  NA's   :3327    NA's   :1674    NA's   :2245
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10000    11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# drop any cases/rows with missing data}
+\CommentTok{# this step creates a complete cases dataset}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(people)}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   :20.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:33.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.390  
+##  Median :47.00   Median :2.000   Median :3.000   Median :3.010  
+##  Mean   :47.36   Mean   :1.504   Mean   :3.133   Mean   :2.991  
+##  3rd Qu.:60.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:5.000  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :15.02   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:24.20   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :27.90   Median :1.000   Median :3.000  
+##  Mean   :1.343   Mean   :28.91   Mean   :1.104   Mean   :2.627  
+##  3rd Qu.:2.000   3rd Qu.:32.36   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##    Depressed      PhysActive    SleepHrsNight   
+##  Min.   :1.00   Min.   :1.000   Min.   : 2.000  
+##  1st Qu.:1.00   1st Qu.:1.000   1st Qu.: 6.000  
+##  Median :1.00   Median :2.000   Median : 7.000  
+##  Mean   :1.27   Mean   :1.541   Mean   : 6.903  
+##  3rd Qu.:1.00   3rd Qu.:2.000   3rd Qu.: 8.000  
+##  Max.   :3.00   Max.   :2.000   Max.   :12.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5968   11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# recode into optimal and suboptimal sleep times}
+\CommentTok{# if hours is between 7 and 9 set outcome to 1, else set to 0}
+\NormalTok{people$SleepOptimal <-}\StringTok{ }\KeywordTok{ifelse}\NormalTok{((people$SleepHrsNight <=}\StringTok{ }\DecValTok{9} \NormalTok{&}
+\StringTok{                                 }\NormalTok{people$SleepHrsNight >=}\StringTok{ }\DecValTok{7}\NormalTok{), }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Run Logistic Regression - predict Sleep
+Trouble}\label{run-logistic-regression---predict-sleep-trouble-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# drop SleepHrsNight}
+\NormalTok{people <-}\StringTok{ }\NormalTok{people %>%}\StringTok{ }\KeywordTok{select}\NormalTok{(-SleepHrsNight)}
+
+\CommentTok{# model SleepTrouble by rest of variables in people dataset}
+\NormalTok{fmla <-}\StringTok{ "SleepOptimal ~ ."}
+
+\NormalTok{logreg <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(fmla, }
+              \DataTypeTok{data=}\NormalTok{people, }
+              \DataTypeTok{family=}\KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link=}\StringTok{"logit"}\NormalTok{))}
+
+\KeywordTok{summary}\NormalTok{(logreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = fmla, family = binomial(link = "logit"), data = people)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8534  -1.2663   0.7831   0.9690   1.6859  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)    1.617923   0.271054   5.969 2.39e-09 ***
+## Age            0.002616   0.001818   1.439  0.15023    
+## Gender        -0.175345   0.055329  -3.169  0.00153 ** 
+## MaritalStatus -0.008895   0.024289  -0.366  0.71419    
+## Poverty        0.046104   0.018982   2.429  0.01515 *  
+## HomeOwn       -0.185381   0.058362  -3.176  0.00149 ** 
+## BMI           -0.002653   0.004263  -0.622  0.53368    
+## Diabetes      -0.049788   0.094796  -0.525  0.59943    
+## HealthGen     -0.276983   0.033019  -8.388  < 2e-16 ***
+## Depressed     -0.319782   0.049388  -6.475 9.49e-11 ***
+## PhysActive     0.285746   0.058478   4.886 1.03e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 7925.4  on 5967  degrees of freedom
+## Residual deviance: 7612.4  on 5957  degrees of freedom
+## AIC: 7634.4
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(logreg, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\CommentTok{# plot predicted probabilities}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{pred, }\DataTypeTok{color=}\KeywordTok{as.factor}\NormalTok{(SleepOptimal), }
+           \DataTypeTok{linetype=}\KeywordTok{as.factor}\NormalTok{(SleepOptimal))) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{() +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Predicted Probability for Sleep Optimal"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pick a threshold and get confusion (prediction) matrix}
+\CommentTok{# test a classifier with a threshold > 0.70}
+\NormalTok{ctab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\DataTypeTok{pred=}\NormalTok{people$pred>}\FloatTok{0.7}\NormalTok{, }\DataTypeTok{SleepOptimal=}\NormalTok{people$SleepOptimal)}
+\NormalTok{ctab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        SleepOptimal
+## pred       0    1
+##   FALSE 1888 2523
+##   TRUE   379 1178
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute precision = true positives / predicted true}
+\NormalTok{precision <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[}\DecValTok{2}\NormalTok{,])}
+\NormalTok{precision}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7565832
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# compute recall = true positives / actual true}
+\NormalTok{recall <-}\StringTok{ }\NormalTok{ctab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]/}\KeywordTok{sum}\NormalTok{(ctab[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{recall}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3182924
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# look at ROC curve}
+\KeywordTok{library}\NormalTok{(pROC)}
+\NormalTok{roccurve <-}\StringTok{ }\KeywordTok{roc}\NormalTok{(people$SleepOptimal ~}\StringTok{ }\NormalTok{people$pred)}
+\KeywordTok{plot}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-17-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pull out just the AUC statistic}
+\KeywordTok{auc}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Area under the curve: 0.6327
+\end{verbatim}
+
+\subsubsection{NULL MODEL for Logistic
+Regression}\label{null-model-for-logistic-regression-1}
+
+We didn't cover this in class, but to get an ``intercept-only'' model
+you use a formula in the form of \texttt{outcome\ \textasciitilde{}\ 1}
+which basically says model the \texttt{outcome} variable as a function
+of the intercept indicated by the \texttt{1}. This formula can be used
+for any generalized linear modeling approach (linear regression,
+logistic regression, Poisson regression, etc). You'll notice in running
+the code steps below that using the intercept only approach does no
+better than flipping a coin which you see for the ROC curve which is a
+straight line and the AUC is 0.5 (50/50 guessing does as well as this
+null model with no predictors). You always want the AUC to be
+\textgreater{}0.5 and as close to 1.0 as possible. AUCs
+\textgreater{}0.7 are ok but you really want AUCs \textgreater{}0.8 and
+\textgreater{}0.9 is even better.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# NULL MODEL for Logistic Regression }
+\CommentTok{# is basically an intercept-only model with no predictors}
+\NormalTok{logreg.null <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(SleepOptimal ~}\StringTok{ }\DecValTok{1}\NormalTok{, }
+                   \DataTypeTok{data=}\NormalTok{people, }
+                   \DataTypeTok{family=}\KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link=}\StringTok{"logit"}\NormalTok{))}
+
+\KeywordTok{summary}\NormalTok{(logreg.null)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = SleepOptimal ~ 1, family = binomial(link = "logit"), 
+##     data = people)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.3914  -1.3914   0.9776   0.9776   0.9776  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  0.49015    0.02667   18.38   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 7925.4  on 5967  degrees of freedom
+## Residual deviance: 7925.4  on 5967  degrees of freedom
+## AIC: 7927.4
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred.null <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(logreg.null, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\CommentTok{# plot predicted probabilities}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{pred.null, }\DataTypeTok{color=}\KeywordTok{as.factor}\NormalTok{(SleepOptimal), }
+           \DataTypeTok{linetype=}\KeywordTok{as.factor}\NormalTok{(SleepOptimal))) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{() +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Predicted Probability for Sleep Optimal - Null Model"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# look at ROC curve}
+\CommentTok{#library(pROC)}
+\NormalTok{roccurve <-}\StringTok{ }\KeywordTok{roc}\NormalTok{(people$SleepOptimal ~}\StringTok{ }\NormalTok{people$pred.null)}
+\KeywordTok{plot}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-18-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# pull out just the AUC statistic}
+\KeywordTok{auc}\NormalTok{(roccurve)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Area under the curve: 0.5
+\end{verbatim}
+
+\subsubsection{Try KNN to predict Sleep
+Optimal}\label{try-knn-to-predict-sleep-optimal}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# for knn, rpart and randomForest, set SleepOptimal}
+\CommentTok{# back to being a factor}
+\NormalTok{people$SleepOptimal <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(people$SleepOptimal)}
+
+\CommentTok{# Apply knn procedure to predict Diabetes}
+\CommentTok{# use the knn procedure in the class package}
+\KeywordTok{library}\NormalTok{(class)}
+
+\CommentTok{# Let's try different values of k to see how that affects performance}
+\NormalTok{knn}\FloatTok{.1} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepOptimal, }\DataTypeTok{k =} \DecValTok{1}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.3} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepOptimal, }\DataTypeTok{k =} \DecValTok{3}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.5} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepOptimal, }\DataTypeTok{k =} \DecValTok{5}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.20} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepOptimal, }\DataTypeTok{k =} \DecValTok{20}\NormalTok{)}
+
+\CommentTok{# see how well they classified}
+\CommentTok{# Calculate the percent predicted correctly}
+
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepOptimal ==}\StringTok{ }\NormalTok{knn}\FloatTok{.1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepOptimal ==}\StringTok{ }\NormalTok{knn}\FloatTok{.3}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 89.62802
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepOptimal ==}\StringTok{ }\NormalTok{knn}\FloatTok{.5}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 86.17627
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepOptimal ==}\StringTok{ }\NormalTok{knn}\FloatTok{.20}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 78.03284
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#overall success}
+\CommentTok{# Another way to look at success rate against increasing k}
+
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.1}\NormalTok{, people$SleepOptimal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.1    0    1
+##     0 2267    0
+##     1    0 3701
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.3}\NormalTok{, people$SleepOptimal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.3    0    1
+##     0 1889  241
+##     1  378 3460
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.5}\NormalTok{, people$SleepOptimal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.5    0    1
+##     0 1724  282
+##     1  543 3419
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.20}\NormalTok{, people$SleepOptimal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       
+## knn.20    0    1
+##      0 1179  223
+##      1 1088 3478
+\end{verbatim}
+
+\subsubsection{(Version 1) The ensemble method - using the approach from
+lesson 10 with Age and
+BMI}\label{version-1-the-ensemble-method---using-the-approach-from-lesson-10-with-age-and-bmi-1}
+
+The example here uses the same basic code we did in class for lesson 10.
+This looks at just Age and BMI and no other variables considered in the
+decision tree and random forest models. The plots also just consider Age
+and BMI.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(mosaic)}
+\CommentTok{# Create the grid}
+\NormalTok{ages <-}\StringTok{ }\NormalTok{mosaic::}\KeywordTok{range}\NormalTok{(~}\StringTok{ }\NormalTok{Age, }\DataTypeTok{data =} \NormalTok{people)}
+\NormalTok{bmis <-}\StringTok{ }\NormalTok{mosaic::}\KeywordTok{range}\NormalTok{(~}\StringTok{ }\NormalTok{BMI, }\DataTypeTok{data =} \NormalTok{people)}
+\NormalTok{res <-}\StringTok{ }\DecValTok{100}
+\NormalTok{fake_grid <-}\StringTok{ }\KeywordTok{expand.grid}\NormalTok{(}
+  \DataTypeTok{Age =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \NormalTok{ages[}\DecValTok{1}\NormalTok{], }\DataTypeTok{to =} \NormalTok{ages[}\DecValTok{2}\NormalTok{], }\DataTypeTok{length.out =} \NormalTok{res),}
+  \DataTypeTok{BMI =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \NormalTok{bmis[}\DecValTok{1}\NormalTok{], }\DataTypeTok{to =} \NormalTok{bmis[}\DecValTok{2}\NormalTok{], }\DataTypeTok{length.out =} \NormalTok{res))}
+
+\CommentTok{#Get the overall proportion, p, of people with Sleep Trouble}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(people$SleepOptimal ==}\StringTok{ }\DecValTok{1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(people$SleepOptimal)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6201408
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Null model prediction}
+\NormalTok{pred_null <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(p, }\KeywordTok{nrow}\NormalTok{(fake_grid))}
+
+\NormalTok{form <-}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\StringTok{"SleepOptimal ~ Age + BMI"}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(rpart)}
+\CommentTok{# Evaluate each model on each grid point}
+\CommentTok{# For the decision tree}
+\NormalTok{dmod_tree <-}\StringTok{ }\KeywordTok{rpart}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                   \DataTypeTok{control =} \KeywordTok{rpart.control}\NormalTok{(}\DataTypeTok{cp =} \FloatTok{0.005}\NormalTok{, }\DataTypeTok{minbucket =} \DecValTok{30}\NormalTok{))}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_tree}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## n= 5968 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 5968 2267 1 (0.3798592 0.6201408) *
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# For the forest}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20371}\NormalTok{)}
+\CommentTok{#dmod_forest <- rfsrc(form, data = people, }
+\CommentTok{#                     ntree = 201, mtry = 3)}
+\CommentTok{# try with randomForest instead of randomForestSRC package}
+\KeywordTok{library}\NormalTok{(randomForest)}
+\NormalTok{dmod_forest <-}\StringTok{ }\KeywordTok{randomForest}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                     \DataTypeTok{ntree =} \DecValTok{201}\NormalTok{, }\DataTypeTok{mtry =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_forest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+##  randomForest(formula = form, data = people, ntree = 201, mtry = 2) 
+##                Type of random forest: classification
+##                      Number of trees: 201
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 19.59%
+## Confusion matrix:
+##      0    1 class.error
+## 0 1607  660   0.2911337
+## 1  509 3192   0.1375304
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Now the predictions for tree and forest}
+\CommentTok{#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]}
+\NormalTok{pred_tree <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_tree, }\DataTypeTok{newdata =} \NormalTok{fake_grid)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.3799  0.3799  0.3799  0.3799  0.3799  0.3799
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_tree)}
+
+\CommentTok{# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]}
+\CommentTok{#pred_forest <- predict(dmod_forest, newdata = fake_grid, }
+\CommentTok{#                       type = "prob")[, "Yes"]}
+\NormalTok{pred_forest <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_forest, }\DataTypeTok{newdata =} \NormalTok{fake_grid, }\DataTypeTok{type =} \StringTok{"prob"}\NormalTok{)[,}\DecValTok{1}\NormalTok{]}
+\KeywordTok{summary}\NormalTok{(pred_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.2189  0.3930  0.4369  0.6567  0.9950
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_forest)}
+
+\CommentTok{# K-nearest neighbor prediction}
+\NormalTok{pred_knn <-}\StringTok{ }\NormalTok{people %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, BMI) %>%}
+\StringTok{  }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{test=}\KeywordTok{select}\NormalTok{(fake_grid, Age, BMI), }\DataTypeTok{cl =} \NormalTok{people$SleepOptimal, }\DataTypeTok{k=}\DecValTok{5}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{as.numeric}\NormalTok{() -}\StringTok{ }\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we want to build a dataframe with all of these predicted models,
+then \texttt{gather()} it into a long format.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyr)}
+
+\CommentTok{# build the data frame}
+\NormalTok{res <-}\StringTok{ }\NormalTok{fake_grid %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \StringTok{"Null"} \NormalTok{=}\StringTok{ }\NormalTok{pred_null, }
+    \StringTok{"Decision Tree"} \NormalTok{=}\StringTok{ }\NormalTok{pred_tree,}
+    \StringTok{"Random Forest"} \NormalTok{=}\StringTok{ }\NormalTok{pred_forest, }
+    \StringTok{"K-nearest neighbor"} \NormalTok{=}\StringTok{ }\NormalTok{pred_knn) %>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{k=}\StringTok{"model"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"y_hat"}\NormalTok{, -Age, -BMI)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: attributes are not identical across measure variables; they will
+## be dropped
+\end{verbatim}
+
+Next let's plot all of these
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \NormalTok{res, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Age, }\DataTypeTok{y =} \NormalTok{BMI)) +}
+\StringTok{  }\KeywordTok{geom_tile}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill=}\NormalTok{y_hat), }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{) +}
+\StringTok{  }\KeywordTok{geom_count}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =} \NormalTok{SleepOptimal), }\DataTypeTok{alpha =} \FloatTok{0.4}\NormalTok{, }\DataTypeTok{data =} \NormalTok{people) +}
+\StringTok{  }\KeywordTok{scale_fill_gradient}\NormalTok{(}\DataTypeTok{low =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{high =} \StringTok{"blue"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"gray"}\NormalTok{, }\StringTok{"gold"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_size}\NormalTok{(}\DataTypeTok{range =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{expand =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.02}\NormalTok{, }\DecValTok{0}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~model)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\subsection{\texorpdfstring{An Analysis of \texttt{SleepHrsNight} as a
+Continuous/Numeric Outcome
+Variable}{An Analysis of SleepHrsNight as a Continuous/Numeric Outcome Variable}}\label{an-analysis-of-sleephrsnight-as-a-continuousnumeric-outcome-variable}
+
+We could also analyze sleep hours per night using the original
+continuous/numeric data.
+
+\subsubsection{Linear Regression}\label{linear-regression}
+
+So, instead of running a logistic regression model for a
+binary/categorical outcome, we'll run a linear regression for
+\texttt{SleepHrsNight} as a numeric/continuous outcome. After running
+the model, the predictions are saved and then plotted against the
+original values. As you can see in the plot below, the model does not do
+a very good job. THe adjusted R2 is only 0.04 and the predicted sleep
+times are very narrow (basically around the mean) and do not lie along a
+y=x reference line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# build dataset for these 10 variables and SleepHrsNight}
+\NormalTok{people <-}\StringTok{ }\NormalTok{NHANES %>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(Age, Gender, MaritalStatus, Poverty, HomeOwn,}
+         \NormalTok{BMI, Diabetes, HealthGen, Depressed, PhysActive,}
+         \NormalTok{SleepHrsNight) }
+
+\CommentTok{# run summary}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age           Gender          MaritalStatus     Poverty     
+##  Min.   : 0.00   female:5020   Divorced    : 707   Min.   :0.000  
+##  1st Qu.:17.00   male  :4980   LivePartner : 560   1st Qu.:1.240  
+##  Median :36.00                 Married     :3945   Median :2.700  
+##  Mean   :36.74                 NeverMarried:1380   Mean   :2.802  
+##  3rd Qu.:54.00                 Separated   : 183   3rd Qu.:4.710  
+##  Max.   :80.00                 Widowed     : 456   Max.   :5.000  
+##                                NA's        :2769   NA's   :726    
+##   HomeOwn          BMI        Diabetes        HealthGen      Depressed   
+##  Own  :6425   Min.   :12.88   No  :9098   Excellent: 878   None   :5246  
+##  Rent :3287   1st Qu.:21.58   Yes : 760   Vgood    :2508   Several:1009  
+##  Other: 225   Median :25.98   NA's: 142   Good     :2956   Most   : 418  
+##  NA's :  63   Mean   :26.66               Fair     :1010   NA's   :3327  
+##               3rd Qu.:30.89               Poor     : 187                 
+##               Max.   :81.25               NA's     :2461                 
+##               NA's   :366                                                
+##  PhysActive  SleepHrsNight   
+##  No  :3677   Min.   : 2.000  
+##  Yes :4649   1st Qu.: 6.000  
+##  NA's:1674   Median : 7.000  
+##              Mean   : 6.928  
+##              3rd Qu.: 8.000  
+##              Max.   :12.000  
+##              NA's   :2245
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert back to dataframe}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(people)}
+\KeywordTok{glimpse}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Observations: 10,000
+## Variables: 11
+## $ Age           <int> 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 54,...
+## $ Gender        <fctr> male, male, male, male, female, male, male, fem...
+## $ MaritalStatus <fctr> Married, Married, Married, NA, LivePartner, NA,...
+## $ Poverty       <dbl> 1.36, 1.36, 1.36, 1.07, 1.91, 1.84, 2.33, 5.00, ...
+## $ HomeOwn       <fctr> Own, Own, Own, Own, Rent, Rent, Own, Own, Own, ...
+## $ BMI           <dbl> 32.22, 32.22, 32.22, 15.30, 30.57, 16.82, 20.64,...
+## $ Diabetes      <fctr> No, No, No, No, No, No, No, No, No, No, No, No,...
+## $ HealthGen     <fctr> Good, Good, Good, NA, Good, NA, NA, Vgood, Vgoo...
+## $ Depressed     <fctr> Several, Several, Several, NA, Several, NA, NA,...
+## $ PhysActive    <fctr> No, No, No, NA, No, NA, NA, Yes, Yes, Yes, Yes,...
+## $ SleepHrsNight <int> 4, 4, 4, NA, 8, NA, NA, 8, 8, 8, 7, 5, 4, NA, 5,...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert factors to numeric - the packages just seem to work better that way}
+\NormalTok{people$Gender <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Gender)}
+\NormalTok{people$MaritalStatus <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$MaritalStatus)}
+\NormalTok{people$HomeOwn <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HomeOwn)}
+\NormalTok{people$Diabetes <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Diabetes)}
+\NormalTok{people$HealthGen <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$HealthGen)}
+\NormalTok{people$Depressed <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$Depressed)}
+\NormalTok{people$PhysActive <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$PhysActive)}
+\NormalTok{people$SleepHrsNight <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(people$SleepHrsNight)}
+
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   : 0.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:17.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.240  
+##  Median :36.00   Median :1.000   Median :3.000   Median :2.700  
+##  Mean   :36.74   Mean   :1.498   Mean   :3.158   Mean   :2.802  
+##  3rd Qu.:54.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:4.710  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##                                  NA's   :2769    NA's   :726    
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :12.88   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:21.58   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :25.98   Median :1.000   Median :3.000  
+##  Mean   :1.376   Mean   :26.66   Mean   :1.077   Mean   :2.618  
+##  3rd Qu.:2.000   3rd Qu.:30.89   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##  NA's   :63      NA's   :366     NA's   :142     NA's   :2461   
+##    Depressed       PhysActive    SleepHrsNight   
+##  Min.   :1.000   Min.   :1.000   Min.   : 2.000  
+##  1st Qu.:1.000   1st Qu.:1.000   1st Qu.: 6.000  
+##  Median :1.000   Median :2.000   Median : 7.000  
+##  Mean   :1.276   Mean   :1.558   Mean   : 6.928  
+##  3rd Qu.:1.000   3rd Qu.:2.000   3rd Qu.: 8.000  
+##  Max.   :3.000   Max.   :2.000   Max.   :12.000  
+##  NA's   :3327    NA's   :1674    NA's   :2245
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10000    11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# drop any cases/rows with missing data}
+\CommentTok{# this step creates a complete cases dataset}
+\NormalTok{people <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(people)}
+\KeywordTok{summary}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age            Gender      MaritalStatus      Poverty     
+##  Min.   :20.00   Min.   :1.000   Min.   :1.000   Min.   :0.000  
+##  1st Qu.:33.00   1st Qu.:1.000   1st Qu.:3.000   1st Qu.:1.390  
+##  Median :47.00   Median :2.000   Median :3.000   Median :3.010  
+##  Mean   :47.36   Mean   :1.504   Mean   :3.133   Mean   :2.991  
+##  3rd Qu.:60.00   3rd Qu.:2.000   3rd Qu.:4.000   3rd Qu.:5.000  
+##  Max.   :80.00   Max.   :2.000   Max.   :6.000   Max.   :5.000  
+##     HomeOwn           BMI           Diabetes       HealthGen    
+##  Min.   :1.000   Min.   :15.02   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:24.20   1st Qu.:1.000   1st Qu.:2.000  
+##  Median :1.000   Median :27.90   Median :1.000   Median :3.000  
+##  Mean   :1.343   Mean   :28.91   Mean   :1.104   Mean   :2.627  
+##  3rd Qu.:2.000   3rd Qu.:32.36   3rd Qu.:1.000   3rd Qu.:3.000  
+##  Max.   :3.000   Max.   :81.25   Max.   :2.000   Max.   :5.000  
+##    Depressed      PhysActive    SleepHrsNight   
+##  Min.   :1.00   Min.   :1.000   Min.   : 2.000  
+##  1st Qu.:1.00   1st Qu.:1.000   1st Qu.: 6.000  
+##  Median :1.00   Median :2.000   Median : 7.000  
+##  Mean   :1.27   Mean   :1.541   Mean   : 6.903  
+##  3rd Qu.:1.00   3rd Qu.:2.000   3rd Qu.: 8.000  
+##  Max.   :3.00   Max.   :2.000   Max.   :12.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(people)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5968   11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# model SleepTrouble by rest of variables in people dataset}
+\NormalTok{fmla <-}\StringTok{ "SleepHrsNight ~ ."}
+
+\NormalTok{lm1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(fmla, }\DataTypeTok{data=}\NormalTok{people)}
+
+\KeywordTok{summary}\NormalTok{(lm1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = fmla, data = people)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.1947 -0.8323  0.0303  0.9318  5.7516 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    7.594469   0.169066  44.920  < 2e-16 ***
+## Age            0.002509   0.001125   2.231  0.02574 *  
+## Gender        -0.195405   0.034191  -5.715 1.15e-08 ***
+## MaritalStatus  0.040742   0.015114   2.696  0.00704 ** 
+## Poverty       -0.008128   0.011819  -0.688  0.49166    
+## HomeOwn       -0.094164   0.036809  -2.558  0.01055 *  
+## BMI           -0.001024   0.002677  -0.382  0.70212    
+## Diabetes       0.086195   0.059545   1.448  0.14780    
+## HealthGen     -0.158651   0.020358  -7.793 7.68e-15 ***
+## Depressed     -0.229240   0.031397  -7.301 3.22e-13 ***
+## PhysActive     0.096824   0.036530   2.651  0.00806 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.309 on 5957 degrees of freedom
+## Multiple R-squared:  0.03958,    Adjusted R-squared:  0.03797 
+## F-statistic: 24.55 on 10 and 5957 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(lm1, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\CommentTok{# plot predicted sleep times}
+\CommentTok{# against the original sleep times}
+\CommentTok{# add y=x reference line}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y=}\NormalTok{pred)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Predicted Sleep Times vs Actual Sleep Times"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+\subsubsection{NULL Model for
+Regression}\label{null-model-for-regression}
+
+The NULL model for linear regression uses the same approach as above -
+basically and intercept-only model which is \(Y = \beta_0 + \epsilon\) -
+basically the outcome \texttt{Y} is estimated by the grand mean.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm1.null <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\StringTok{"SleepHrsNight ~ 1"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{people)}
+
+\KeywordTok{summary}\NormalTok{(lm1.null)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = "SleepHrsNight ~ 1", data = people)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.903 -0.903  0.097  1.097  5.097 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  6.90298    0.01728   399.5   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.335 on 5967 degrees of freedom
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{people$pred.null <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(lm1.null, }
+                       \DataTypeTok{newdata=}\NormalTok{people, }
+                       \DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can plot the null model predictions against the original sleep times.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# plot predicted sleep times}
+\CommentTok{# against the original sleep times}
+\CommentTok{# add y=x reference line}
+\KeywordTok{ggplot}\NormalTok{(people, }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y=}\NormalTok{pred.null)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Null Model Predicted Sleep Times vs Actual Sleep Times"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+We can compare these 2 models using the \texttt{anova()} command. While
+the original linear model did not do very well, it does do a better job
+predicting sleep times than the null model did.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{anova}\NormalTok{(lm1.null, lm1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrrrr@{}}
+\toprule
+Res.Df & RSS & Df & Sum of Sq & F & Pr(\textgreater{}F)\tabularnewline
+\midrule
+\endhead
+5967 & 10632.83 & NA & NA & NA & NA\tabularnewline
+5957 & 10211.93 & 10 & 420.9002 & 24.55269 & 0\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{KNN Classifications}\label{knn-classifications}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Let's try different values of k to see how that affects performance}
+\NormalTok{knn}\FloatTok{.1} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepHrsNight, }\DataTypeTok{k =} \DecValTok{1}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.3} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepHrsNight, }\DataTypeTok{k =} \DecValTok{3}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.5} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepHrsNight, }\DataTypeTok{k =} \DecValTok{5}\NormalTok{)}
+\NormalTok{knn}\FloatTok{.20} \NormalTok{<-}\StringTok{ }\KeywordTok{knn}\NormalTok{(}\DataTypeTok{train =} \NormalTok{people, }\DataTypeTok{test =} \NormalTok{people, }\DataTypeTok{cl =} \NormalTok{people$SleepHrsNight, }\DataTypeTok{k =} \DecValTok{20}\NormalTok{)}
+
+\CommentTok{# see how well they classified}
+\CommentTok{# Calculate the percent predicted correctly}
+
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepHrsNight ==}\StringTok{ }\NormalTok{knn}\FloatTok{.1}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepHrsNight ==}\StringTok{ }\NormalTok{knn}\FloatTok{.3}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 81.26676
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepHrsNight ==}\StringTok{ }\NormalTok{knn}\FloatTok{.5}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 72.70442
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100}\NormalTok{*}\KeywordTok{sum}\NormalTok{(people$SleepHrsNight ==}\StringTok{ }\NormalTok{knn}\FloatTok{.20}\NormalTok{)/}\KeywordTok{length}\NormalTok{(knn}\FloatTok{.20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 57.48995
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#overall success}
+\CommentTok{# Another way to look at success rate against increasing k}
+
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.1}\NormalTok{, people$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.1    2    3    4    5    6    7    8    9   10   11   12
+##    2     9    0    0    0    0    0    0    0    0    0    0
+##    3     0   51    0    0    0    0    0    0    0    0    0
+##    4     0    0  242    0    0    0    0    0    0    0    0
+##    5     0    0    0  436    0    0    0    0    0    0    0
+##    6     0    0    0    0 1409    0    0    0    0    0    0
+##    7     0    0    0    0    0 1742    0    0    0    0    0
+##    8     0    0    0    0    0    0 1644    0    0    0    0
+##    9     0    0    0    0    0    0    0  315    0    0    0
+##    10    0    0    0    0    0    0    0    0   93    0    0
+##    11    0    0    0    0    0    0    0    0    0   11    0
+##    12    0    0    0    0    0    0    0    0    0    0   16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.3}\NormalTok{, people$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.3    2    3    4    5    6    7    8    9   10   11   12
+##    2     6    2    1    0    0    0    0    0    0    0    0
+##    3     0   21    3    1    1    0    0    0    0    0    0
+##    4     3   15  178   19    3    0    0    0    0    0    0
+##    5     0    9   28  309   35    6    1    0    0    0    0
+##    6     0    4   31   90 1168  117   24    1    1    0    0
+##    7     0    0    1   14  183 1461  170   20    0    0    0
+##    8     0    0    0    3   19  151 1420   71   14    3    1
+##    9     0    0    0    0    0    7   28  215   15    1    3
+##    10    0    0    0    0    0    0    0    8   62    4    4
+##    11    0    0    0    0    0    0    1    0    1    3    1
+##    12    0    0    0    0    0    0    0    0    0    0    7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.5}\NormalTok{, people$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+## knn.5    2    3    4    5    6    7    8    9   10   11   12
+##    2     2    1    0    0    0    0    0    0    0    0    0
+##    3     1   14    2    0    1    0    2    0    1    1    0
+##    4     2   15  137   18    4    0    0    0    0    0    0
+##    5     4   16   33  242   38    3    0    1    0    0    0
+##    6     0    5   68  141 1082  168   27    0    0    0    0
+##    7     0    0    2   29  249 1350  252   31    1    1    0
+##    8     0    0    0    6   35  217 1321  131   35    2    2
+##    9     0    0    0    0    0    4   41  149   22    2    2
+##    10    0    0    0    0    0    0    1    3   34    3    4
+##    11    0    0    0    0    0    0    0    0    0    2    2
+##    12    0    0    0    0    0    0    0    0    0    0    6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(knn}\FloatTok{.20}\NormalTok{, people$SleepHrsNight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       
+## knn.20    2    3    4    5    6    7    8    9   10   11   12
+##     2     0    0    0    0    0    0    0    0    0    0    0
+##     3     0    0    0    0    0    0    0    0    0    0    0
+##     4     4    9   41    7    0    0    0    0    0    0    0
+##     5     0   11   30   47    3    1    0    0    0    0    0
+##     6     5   31  153  292  917  204   21    2    1    1    0
+##     7     0    0   16   81  404 1218  443   56    7    0    0
+##     8     0    0    2    9   85  319 1172  221   75    8   16
+##     9     0    0    0    0    0    0    8   36   10    2    0
+##     10    0    0    0    0    0    0    0    0    0    0    0
+##     11    0    0    0    0    0    0    0    0    0    0    0
+##     12    0    0    0    0    0    0    0    0    0    0    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{form <-}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\StringTok{"SleepHrsNight ~ Age + Gender + MaritalStatus + }
+\StringTok{                   Poverty + HomeOwn + BMI + Diabetes + HealthGen + }
+\StringTok{                   Depressed + PhysActive"}\NormalTok{)}
+
+\CommentTok{#library(rpart)}
+\CommentTok{# Evaluate each model on each grid point}
+\CommentTok{# For the decision tree}
+\NormalTok{dmod_tree <-}\StringTok{ }\KeywordTok{rpart}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                   \DataTypeTok{control =} \KeywordTok{rpart.control}\NormalTok{(}\DataTypeTok{cp =} \FloatTok{0.005}\NormalTok{, }\DataTypeTok{minbucket =} \DecValTok{30}\NormalTok{))}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_tree}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## n= 5968 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+## 1) root 5968 10632.8300 6.902983  
+##   2) HealthGen>=3.5 962  2437.1530 6.537422  
+##     4) Age< 76.5 889  2220.9110 6.461192 *
+##     5) Age>=76.5 73   148.1644 7.465753 *
+##   3) HealthGen< 3.5 5006  8042.4130 6.973232  
+##     6) Age< 60.5 3821  5846.8320 6.906831 *
+##     7) Age>=60.5 1185  2124.4100 7.187342 *
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# draw the tree - see example}
+\CommentTok{# in the help at help(plot.rpart)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{xpd =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(dmod_tree, }\DataTypeTok{compress =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(dmod_tree, }\DataTypeTok{use.n =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Age and HealthGen were important for predicting}
+\CommentTok{# sleep times}
+
+\CommentTok{# For the forest}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20371}\NormalTok{)}
+\CommentTok{#dmod_forest <- rfsrc(form, data = people, }
+\CommentTok{#                     ntree = 201, mtry = 3)}
+\CommentTok{# try with randomForest instead of randomForestSRC package}
+\CommentTok{#library(randomForest)}
+\NormalTok{dmod_forest <-}\StringTok{ }\KeywordTok{randomForest}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{people, }
+                     \DataTypeTok{ntree =} \DecValTok{201}\NormalTok{, }\DataTypeTok{mtry =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{# results summary}
+\NormalTok{dmod_forest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+##  randomForest(formula = form, data = people, ntree = 201, mtry = 2) 
+##                Type of random forest: regression
+##                      Number of trees: 201
+## No. of variables tried at each split: 2
+## 
+##           Mean of squared residuals: 1.224045
+##                     % Var explained: 31.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{varImpPlot}\NormalTok{(dmod_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-28-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# you'll notice that BMI and Age are at the top}
+\CommentTok{# of this Variable Important plot}
+\CommentTok{# also near the top is the Poverty level}
+
+\CommentTok{# Now the predictions for tree and forest}
+\CommentTok{# just compute prediction from original data for now}
+\NormalTok{pred_tree <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_tree)}
+\KeywordTok{summary}\NormalTok{(pred_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   6.461   6.907   6.907   6.903   6.907   7.466
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#table(pred_tree)}
+
+\CommentTok{# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]}
+\CommentTok{#pred_forest <- predict(dmod_forest, newdata = fake_grid, }
+\CommentTok{#                       type = "prob")[, "Yes"]}
+\NormalTok{pred_forest <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(dmod_forest)}
+\KeywordTok{summary}\NormalTok{(pred_forest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   4.455   6.638   6.936   6.902   7.215   9.423
+\end{verbatim}
+
+Let's make a plot of each of the predictions against the original
+values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# define multiplot function}
+\CommentTok{# see http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/}
+\CommentTok{# for how to create this function}
+\NormalTok{multiplot <-}\StringTok{ }\NormalTok{function(..., }\DataTypeTok{plotlist=}\OtherTok{NULL}\NormalTok{, file, }\DataTypeTok{cols=}\DecValTok{1}\NormalTok{, }\DataTypeTok{layout=}\OtherTok{NULL}\NormalTok{) \{}
+  \KeywordTok{library}\NormalTok{(grid)}
+
+  \CommentTok{# Make a list from the ... arguments and plotlist}
+  \NormalTok{plots <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{list}\NormalTok{(...), plotlist)}
+
+  \NormalTok{numPlots =}\StringTok{ }\KeywordTok{length}\NormalTok{(plots)}
+
+  \CommentTok{# If layout is NULL, then use 'cols' to determine layout}
+  \NormalTok{if (}\KeywordTok{is.null}\NormalTok{(layout)) \{}
+    \CommentTok{# Make the panel}
+    \CommentTok{# ncol: Number of columns of plots}
+    \CommentTok{# nrow: Number of rows needed, calculated from # of cols}
+    \NormalTok{layout <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, cols *}\StringTok{ }\KeywordTok{ceiling}\NormalTok{(numPlots/cols)),}
+                    \DataTypeTok{ncol =} \NormalTok{cols, }\DataTypeTok{nrow =} \KeywordTok{ceiling}\NormalTok{(numPlots/cols))}
+  \NormalTok{\}}
+
+ \NormalTok{if (numPlots==}\DecValTok{1}\NormalTok{) \{}
+    \KeywordTok{print}\NormalTok{(plots[[}\DecValTok{1}\NormalTok{]])}
+
+  \NormalTok{\} else \{}
+    \CommentTok{# Set up the page}
+    \KeywordTok{grid.newpage}\NormalTok{()}
+    \KeywordTok{pushViewport}\NormalTok{(}\KeywordTok{viewport}\NormalTok{(}\DataTypeTok{layout =} \KeywordTok{grid.layout}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(layout), }\KeywordTok{ncol}\NormalTok{(layout))))}
+
+    \CommentTok{# Make each plot, in the correct location}
+    \NormalTok{for (i in }\DecValTok{1}\NormalTok{:numPlots) \{}
+      \CommentTok{# Get the i,j matrix positions of the regions that contain this subplot}
+      \NormalTok{matchidx <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{which}\NormalTok{(layout ==}\StringTok{ }\NormalTok{i, }\DataTypeTok{arr.ind =} \OtherTok{TRUE}\NormalTok{))}
+
+      \KeywordTok{print}\NormalTok{(plots[[i]], }\DataTypeTok{vp =} \KeywordTok{viewport}\NormalTok{(}\DataTypeTok{layout.pos.row =} \NormalTok{matchidx$row,}
+                                      \DataTypeTok{layout.pos.col =} \NormalTok{matchidx$col))}
+    \NormalTok{\}}
+  \NormalTok{\}}
+\NormalTok{\}}
+
+\CommentTok{# make the plots}
+\NormalTok{people$pred_tree <-}\StringTok{ }\NormalTok{pred_tree}
+\NormalTok{people$pred_forest <-}\StringTok{ }\NormalTok{pred_forest}
+\NormalTok{p1 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(people, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y =} \NormalTok{value, }\DataTypeTok{color =} \NormalTok{value)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{pred.null),}
+               \DataTypeTok{colour=}\StringTok{"blue"}\NormalTok{) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"NULL Model"}\NormalTok{)}
+
+\NormalTok{p2 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(people, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y =} \NormalTok{value, }\DataTypeTok{color =} \NormalTok{value)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{pred),}
+               \DataTypeTok{colour=}\StringTok{"red"}\NormalTok{) +}
+\StringTok{    }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Linear Model"}\NormalTok{)}
+
+\NormalTok{p3 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(people, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y =} \NormalTok{value, }\DataTypeTok{color =} \NormalTok{value)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{pred_tree),}
+               \DataTypeTok{colour=}\StringTok{"green"}\NormalTok{) +}
+\StringTok{    }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Decision Tree"}\NormalTok{)}
+
+\NormalTok{p4 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(people, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SleepHrsNight, }\DataTypeTok{y =} \NormalTok{value, }\DataTypeTok{color =} \NormalTok{value)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{pred_forest),}
+               \DataTypeTok{colour=}\StringTok{"purple"}\NormalTok{) +}
+\StringTok{    }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{slope=}\DecValTok{1}\NormalTok{, }\DataTypeTok{intercept=}\DecValTok{0}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Random Forest"}\NormalTok{)}
+
+\KeywordTok{multiplot}\NormalTok{(p1, p2, p3, p4, }\DataTypeTok{cols=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Hmwk7AnswerKey_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+Of these 4, the Random Forest model results seem to do the best job
+predicting sleep times.
+
+
+\end{document}

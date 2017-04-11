@@ -3,9 +3,10 @@ title: "Homework 7 Answer Key"
 author: "Melinda K. Higgins, PhD."
 date: "April 6, 2017"
 output:
+  pdf_document:
+    keep_tex: yes
   html_document: default
   github_document: default
-  pdf_document: default
   word_document: default
 ---
 
