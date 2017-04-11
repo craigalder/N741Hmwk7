@@ -3,8 +3,8 @@ title: "Homework 7 Answer Key"
 author: "Melinda K. Higgins, PhD."
 date: "April 6, 2017"
 output:
-  github_document: default
   html_document: default
+  github_document: default
   pdf_document: default
   word_document: default
 ---
@@ -805,3 +805,250 @@ ggplot(data = res, aes(x = Age, y = BMI)) +
   facet_wrap(~model)
 
 ```
+
+## An Analysis of `SleepHrsNight` as a Continuous/Numeric Outcome Variable
+
+We could also analyze sleep hours per night using the original continuous/numeric data.
+
+### Linear Regression
+
+So, instead of running a logistic regression model for a binary/categorical outcome, we'll run a linear regression for `SleepHrsNight` as a numeric/continuous outcome. After running the model, the predictions are saved and then plotted against the original values. As you can see in the plot below, the model does not do a very good job. THe adjusted R2 is only 0.04 and the predicted sleep times are very narrow (basically around the mean) and do not lie along a y=x reference line.
+
+```{r}
+# build dataset for these 10 variables and SleepHrsNight
+people <- NHANES %>% 
+  select(Age, Gender, MaritalStatus, Poverty, HomeOwn,
+         BMI, Diabetes, HealthGen, Depressed, PhysActive,
+         SleepHrsNight) 
+
+# run summary
+summary(people)
+
+# Convert back to dataframe
+people <- as.data.frame(people)
+glimpse(people)
+
+# Convert factors to numeric - the packages just seem to work better that way
+people$Gender <- as.numeric(people$Gender)
+people$MaritalStatus <- as.numeric(people$MaritalStatus)
+people$HomeOwn <- as.numeric(people$HomeOwn)
+people$Diabetes <- as.numeric(people$Diabetes)
+people$HealthGen <- as.numeric(people$HealthGen)
+people$Depressed <- as.numeric(people$Depressed)
+people$PhysActive <- as.numeric(people$PhysActive)
+people$SleepHrsNight <- as.numeric(people$SleepHrsNight)
+
+summary(people)
+dim(people)
+
+# drop any cases/rows with missing data
+# this step creates a complete cases dataset
+people <- na.omit(people)
+summary(people)
+dim(people)
+
+# model SleepTrouble by rest of variables in people dataset
+fmla <- "SleepHrsNight ~ ."
+
+lm1 <- lm(fmla, data=people)
+
+summary(lm1)
+
+people$pred <- predict(lm1, 
+                       newdata=people, 
+                       type="response")
+
+# plot predicted sleep times
+# against the original sleep times
+# add y=x reference line
+ggplot(people, 
+       aes(x=SleepHrsNight, y=pred)) +
+  geom_point() + 
+  geom_abline(slope=1, intercept=0) +
+  ggtitle("Predicted Sleep Times vs Actual Sleep Times")
+```
+
+### NULL Model for Regression
+
+The NULL model for linear regression uses the same approach as above - basically and intercept-only model which is $Y = \beta_0 + \epsilon$ - basically the outcome `Y` is estimated by the grand mean.
+
+```{r}
+lm1.null <- lm("SleepHrsNight ~ 1", data=people)
+
+summary(lm1.null)
+
+people$pred.null <- predict(lm1.null, 
+                       newdata=people, 
+                       type="response")
+```
+
+We can plot the null model predictions against the original sleep times.
+
+```{r}
+# plot predicted sleep times
+# against the original sleep times
+# add y=x reference line
+ggplot(people, 
+       aes(x=SleepHrsNight, y=pred.null)) +
+  geom_point() + 
+  geom_abline(slope=1, intercept=0) +
+  ggtitle("Null Model Predicted Sleep Times vs Actual Sleep Times")
+```
+
+We can compare these 2 models using the `anova()` command. While the original linear model did not do very well, it does do a better job predicting sleep times than the null model did.
+
+```{r}
+knitr::kable(anova(lm1.null, lm1))
+```
+
+### KNN Classifications
+
+```{r}
+# Let's try different values of k to see how that affects performance
+knn.1 <- knn(train = people, test = people, cl = people$SleepHrsNight, k = 1)
+knn.3 <- knn(train = people, test = people, cl = people$SleepHrsNight, k = 3)
+knn.5 <- knn(train = people, test = people, cl = people$SleepHrsNight, k = 5)
+knn.20 <- knn(train = people, test = people, cl = people$SleepHrsNight, k = 20)
+
+# see how well they classified
+# Calculate the percent predicted correctly
+
+100*sum(people$SleepHrsNight == knn.1)/length(knn.1)
+100*sum(people$SleepHrsNight == knn.3)/length(knn.3)
+100*sum(people$SleepHrsNight == knn.5)/length(knn.5)
+100*sum(people$SleepHrsNight == knn.20)/length(knn.20)
+
+#overall success
+# Another way to look at success rate against increasing k
+
+table(knn.1, people$SleepHrsNight)
+table(knn.3, people$SleepHrsNight)
+table(knn.5, people$SleepHrsNight)
+table(knn.20, people$SleepHrsNight)
+```
+
+```{r}
+form <- as.formula("SleepHrsNight ~ Age + Gender + MaritalStatus + 
+                   Poverty + HomeOwn + BMI + Diabetes + HealthGen + 
+                   Depressed + PhysActive")
+
+#library(rpart)
+# Evaluate each model on each grid point
+# For the decision tree
+dmod_tree <- rpart(form, data = people, 
+                   control = rpart.control(cp = 0.005, minbucket = 30))
+
+# results summary
+dmod_tree
+
+# draw the tree - see example
+# in the help at help(plot.rpart)
+par(xpd = TRUE)
+plot(dmod_tree, compress = TRUE)
+text(dmod_tree, use.n = TRUE)
+# Age and HealthGen were important for predicting
+# sleep times
+
+# For the forest
+set.seed(20371)
+#dmod_forest <- rfsrc(form, data = people, 
+#                     ntree = 201, mtry = 3)
+# try with randomForest instead of randomForestSRC package
+#library(randomForest)
+dmod_forest <- randomForest(form, data = people, 
+                     ntree = 201, mtry = 2)
+
+# results summary
+dmod_forest
+varImpPlot(dmod_forest)
+# you'll notice that BMI and Age are at the top
+# of this Variable Important plot
+# also near the top is the Poverty level
+
+# Now the predictions for tree and forest
+# just compute prediction from original data for now
+pred_tree <- predict(dmod_tree)
+summary(pred_tree)
+#table(pred_tree)
+
+# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
+#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
+#                       type = "prob")[, "Yes"]
+pred_forest <- predict(dmod_forest)
+summary(pred_forest)
+```
+
+Let's make a plot of each of the predictions against the original values.
+
+```{r}
+# define multiplot function
+# see http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+# for how to create this function
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                    ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+ if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+
+# make the plots
+people$pred_tree <- pred_tree
+people$pred_forest <- pred_forest
+p1 <- ggplot(people, aes(x=SleepHrsNight, y = value, color = value)) + 
+    geom_point(aes(y = pred.null),
+               colour="blue") + 
+    geom_abline(slope=1, intercept=0) +
+    ggtitle("NULL Model")
+
+p2 <- ggplot(people, aes(x=SleepHrsNight, y = value, color = value)) + 
+    geom_point(aes(y = pred),
+               colour="red") +
+    geom_abline(slope=1, intercept=0) +
+  ggtitle("Linear Model")
+
+p3 <- ggplot(people, aes(x=SleepHrsNight, y = value, color = value)) + 
+    geom_point(aes(y = pred_tree),
+               colour="green") +
+    geom_abline(slope=1, intercept=0) +
+  ggtitle("Decision Tree")
+
+p4 <- ggplot(people, aes(x=SleepHrsNight, y = value, color = value)) + 
+    geom_point(aes(y = pred_forest),
+               colour="purple") +
+    geom_abline(slope=1, intercept=0) +
+  ggtitle("Random Forest")
+
+multiplot(p1, p2, p3, p4, cols=2)
+```
+
+Of these 4, the Random Forest model results seem to do the best job predicting sleep times.
+
