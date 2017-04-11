@@ -10,7 +10,7 @@ Homework 7 - Assignment
 
 Recall the NHANES dataset that we used in Lesson 10.
 
-1.  In the dataset there is a discrete variable called SleepTrouble indicating whether each participant has trouble sleeping or not. You are going to build a set of classifiers for this dependent variable. You may use any (set of) independent variable(s) you like except for the variable callsed SleepHrsNight. For each of the model types (null model, logistic regression, decision tree, random forest, k-nearest neighbor) do the following:
+1.  In the dataset there is a discrete variable called SleepTrouble indicating whether each participant has trouble sleeping or not. You are going to build a set of classifiers for this dependent variable. You may use any (set of) independent variable(s) you like except for the variable callsed SleepHrsNight. For each of the model types **(null model, logistic regression, decision tree, random forest, k-nearest neighbor)** do the following:
 
     1A. Build the classifier.
 
@@ -29,23 +29,32 @@ Homework 7 - Answer Key
 
 Given the instructions providing in the assignment (above), it is useful to review the code and examples provided in "lesson 10" in Dr. Hertzberg's Github repository at <https://github.com/vhertzb/Lesson10>. Specifically, review the steps in the `Lesson10.Rmd` R markdown file. This "part 1" covered the code and steps for predicting `Diabetes` from these variables: `Age`, `Gender`, `BMI`, `HHIncome`, and `PhysActive`. The code and examples shown include:
 
--   the "null" model (i.e. the proportion of people with diabetes versus not)
+-   the "null" model, which is the model for the outcome with NO predictors in the model. The model only has the intercept, so the model is of the form: *Y* = *β*<sub>0</sub> + *ϵ*
+    -   for a "logistic regression" approach, the NULL model is basically the proportion of people with the outcome of interest (e.g. Diabetes or Sleep Trouble) versus not
+    -   for a "linear regression" approach, the NULL model is the mean (average) level across all subjects for the numerical/continuous outcome measure.
+-   a "regression-type" model:
+    -   logistic regression approach for a binary/categorical outcome
+    -   linear regression approach for a continuous/numerical outcome
 -   running KNN (k-Nearest Neighbor Classification) (via `knn` from the `class` package)
 -   a decision tree (via `rpart()` from the `rpart` package)
 -   and using `randomForest` from the `randomForest` package
 
-**NOTE**: Lesson 10's `Lesson10.Rmd` R markdown did not include the code for running a logistic regression for Diabetes, but this was covered earlier around week 5; see <https://github.com/melindahiggins2000/N741linearlogmodels> when we covered generalized linear models. We also did more with logistic regression in week 6, see <https://github.com/melindahiggins2000/N741predict>.
+**NOTE**: Lesson 10's `Lesson10.Rmd` R markdown did not include the code for running a logistic regression for Diabetes nor a linear regression example, but these topics were covered earlier during weeks 5 and 6;
+
+-   see <https://github.com/melindahiggins2000/N741linearlogmodels> when we covered generalized linear models;
+-   also see <https://github.com/vhertzb/Regression-1>;
+-   we also did more with logistic regression in week 6, see <https://github.com/melindahiggins2000/N741predict>;
+-   and <https://melindahiggins2000.github.io/N741bigdata/models.html>;
+-   and <https://melindahiggins2000.github.io/N741bigdata/prediction.html>.
 
 ### Load the NHANES dataset and review the variables included
+
+It is ALWAYS a good idea to make sure you review the variables included and think about how they were recorded, what type of data each variable is (categorical, ordinal, numeric, continuous, etc), and the distributions of each.
 
 ``` r
 # load the NHANES package with the NHANES dataset
 library(NHANES)
-```
 
-    ## Warning: package 'NHANES' was built under R version 3.3.3
-
-``` r
 # create a data object for the NHANES dataset
 dat1 <- NHANES
 
@@ -83,24 +92,8 @@ names(dat1)
 ``` r
 # other packages needed
 library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 library(ggplot2)
 ```
-
-    ## Warning: package 'ggplot2' was built under R version 3.3.3
 
 ### Investigate the 2 Outcomes of Interest `SleepTrouble` and `SleepHrsNight`
 
@@ -139,7 +132,7 @@ But `SleepHrsNight` is a numeric variable (specifically an integer) with values 
 NOTE: `ggplot()` codes based on examples at "Cookbook for R" website for the "R Graphics Cookbook" book at <http://www.cookbook-r.com/Graphs/>.
 
 ``` r
-# Bar chart of Frequency/Counts for Skeep Trouble with NAs
+# Bar chart of Frequency/Counts for Sleep Trouble with NAs
 dat1 %>%
   ggplot(aes(x=SleepTrouble, fill=SleepTrouble)) +
     geom_bar(stat="count", colour="black") +
@@ -175,10 +168,6 @@ dat1 %>%
     ggtitle("Histogram Density Plot of Sleep Hours Per Night")
 ```
 
-    ## Warning: Removed 2245 rows containing non-finite values (stat_bin).
-
-    ## Warning: Removed 2245 rows containing non-finite values (stat_density).
-
 ![](Hmwk7AnswerKey_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 ### You'll notice the following for `SleepHrsNight`:
@@ -206,7 +195,7 @@ For each of the model types (null model, logistic regression, decision tree, ran
 
 ### Pick a subset of likely variables for predicting Sleep Trouble
 
-For my approach, I'm choosing the following 10 variables as possible predictors of sleep problems:
+For my approach, I choose the following 10 variables as possible predictors of sleep problems:
 
 1.  age
 2.  gender
@@ -355,6 +344,14 @@ dim(people)
 
     ## [1] 5981   11
 
+------------------------------------------------------------------------
+
+#### SUGGESTION TO REMEMBER
+
+**NOTE:** The last code step above drops any case with missing data. This was done to avoid problems with some of these procedures which vary in how they handle missing data. In general, missing data issues should be addressed BEFORE any analyses are performed since most (nearly all) assume complete cases. So, REMEMBER to always review and discuss how missing data was addressed in your own studies and analyses BEFORE finalizing your statistical models and tests.
+
+------------------------------------------------------------------------
+
 ### Run Logistic Regression - predict Sleep Trouble
 
 ``` r
@@ -367,6 +364,11 @@ people$SleepTrouble <- as.numeric(people$SleepTrouble==2)
 
 # model SleepTrouble by rest of variables in people dataset
 fmla <- "SleepTrouble ~ ."
+
+# NOTE: This will result in a model of the form
+# SleepTrouble ~ Age + Gender + MaritalStatus +
+#                Poverty + HomeOwn + BMI + Diabetes +
+#                HealthGen + Depressed + PhysActive
 
 logreg <- glm(fmla, 
               data=people, 
@@ -408,6 +410,19 @@ summary(logreg)
     ## Number of Fisher Scoring iterations: 4
 
 ``` r
+class(logreg)
+```
+
+    ## [1] "glm" "lm"
+
+``` r
+# Get the predictions - the predicted probabilities
+# of SleepTouble Yes for each case
+# 
+# NOTE: the function predict() is a generic function
+# which recognizes the "logreg" output from the logistic regression
+# and in reality the function really calls predict.glm
+# since logreg is of class glm.
 people$pred <- predict(logreg, 
                        newdata=people, 
                        type="response")
@@ -453,20 +468,6 @@ recall
 ``` r
 # look at ROC curve
 library(pROC)
-```
-
-    ## Warning: package 'pROC' was built under R version 3.3.3
-
-    ## Type 'citation("pROC")' for a citation.
-
-    ## 
-    ## Attaching package: 'pROC'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     cov, smooth, var
-
-``` r
 roccurve <- roc(people$SleepTrouble ~ people$pred)
 plot(roccurve)
 ```
@@ -482,7 +483,9 @@ auc(roccurve)
 
 ### NULL MODEL for Logistic Regression
 
-We didn't cover this in class, but to get an "intercept-only" model you use a formula in the form of `outcome ~ 1` which basically says model the `outcome` variable as a function of the intercept indicated by the `1`. This formula can be used for any generalized linear modeling approach (linear regression, logistic regression, Poisson regression, etc). You'll notice in running the code steps below that using the intercept only approach does no better than flipping a coin which you see for the ROC curve which is a straight line and the AUC is 0.5 (50/50 guessing does as well as this null model with no predictors). You always want the AUC to be &gt;0.5 and as close to 1.0 as possible. AUCs &gt;0.7 are ok but you really want AUCs &gt;0.8 and &gt;0.9 is even better.
+We didn't cover this in class, but to get an "intercept-only" model you use a formula in the form of `outcome ~ 1` which basically says model the `outcome` variable as a function of the intercept indicated by the `1`. The `1` is used since the intercept term *β*<sub>0</sub> is implicitly multiplied by `1`. The function is of the form *Y* = *β*<sub>0</sub> \* (1)+*ϵ*.
+
+This formula can be used for any generalized linear modeling approach (linear regression, logistic regression, Poisson regression, etc). You'll notice in running the code steps below that using the intercept only approach does no better than flipping a coin which you see for the ROC curve which is a straight line and the AUC is 0.5 (50/50 guessing does as well as this null model with no predictors). You always want the AUC to be &gt;0.5 and as close to 1.0 as possible. AUCs &gt;0.7 are ok but you really want AUCs &gt;0.8 and &gt;0.9 is even better.
 
 ``` r
 # NULL MODEL for Logistic Regression 
@@ -605,19 +608,19 @@ knn.20 <- knn(train = people, test = people, cl = people$SleepTrouble, k = 20)
 100*sum(people$SleepTrouble == knn.3)/length(knn.3)
 ```
 
-    ## [1] 90.97141
+    ## [1] 90.92125
 
 ``` r
 100*sum(people$SleepTrouble == knn.5)/length(knn.5)
 ```
 
-    ## [1] 87.10918
+    ## [1] 87.25966
 
 ``` r
 100*sum(people$SleepTrouble == knn.20)/length(knn.20)
 ```
 
-    ## [1] 78.04715
+    ## [1] 77.99699
 
 ``` r
 #overall success
@@ -637,8 +640,8 @@ table(knn.3, people$SleepTrouble)
 
     ##      
     ## knn.3    0    1
-    ##     0 4193  358
-    ##     1  182 1248
+    ##     0 4185  353
+    ##     1  190 1253
 
 ``` r
 table(knn.5, people$SleepTrouble)
@@ -646,8 +649,8 @@ table(knn.5, people$SleepTrouble)
 
     ##      
     ## knn.5    0    1
-    ##     0 4162  558
-    ##     1  213 1048
+    ##     0 4168  555
+    ##     1  207 1051
 
 ``` r
 table(knn.20, people$SleepTrouble)
@@ -655,8 +658,8 @@ table(knn.20, people$SleepTrouble)
 
     ##       
     ## knn.20    0    1
-    ##      0 4275 1213
-    ##      1  100  393
+    ##      0 4270 1211
+    ##      1  105  395
 
 ### (Version 1) The ensemble method - using the approach from lesson 10 with Age and BMI
 
@@ -664,51 +667,6 @@ The example here uses the same basic code we did in class for lesson 10. This lo
 
 ``` r
 library(mosaic)
-```
-
-    ## Warning: package 'mosaic' was built under R version 3.3.3
-
-    ## Loading required package: lattice
-
-    ## Warning: package 'lattice' was built under R version 3.3.3
-
-    ## Loading required package: mosaicData
-
-    ## Warning: package 'mosaicData' was built under R version 3.3.3
-
-    ## Loading required package: Matrix
-
-    ## Warning: package 'Matrix' was built under R version 3.3.3
-
-    ## 
-    ## The 'mosaic' package masks several functions from core packages in order to add additional features.  
-    ## The original behavior of these functions should not be affected by this.
-
-    ## 
-    ## Attaching package: 'mosaic'
-
-    ## The following object is masked from 'package:Matrix':
-    ## 
-    ##     mean
-
-    ## The following objects are masked from 'package:pROC':
-    ## 
-    ##     cov, var
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     count, do, tally
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     binom.test, cor, cov, D, fivenum, IQR, median, prop.test,
-    ##     quantile, sd, t.test, var
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     max, mean, min, prod, range, sample, sum
-
-``` r
 # Create the grid
 ages <- mosaic::range(~ Age, data = people)
 bmis <- mosaic::range(~ BMI, data = people)
@@ -728,6 +686,7 @@ p
 # Null model prediction
 pred_null <- rep(p, nrow(fake_grid))
 
+# model with only Age and BMI considered
 form <- as.formula("SleepTrouble ~ Age + BMI")
 
 library(rpart)
@@ -748,30 +707,9 @@ dmod_tree
     ## 1) root 5981 1606 0 (0.7314830 0.2685170) *
 
 ``` r
-# For the forest
+# For random forest
 set.seed(20371)
-#dmod_forest <- rfsrc(form, data = people, 
-#                     ntree = 201, mtry = 3)
-# try with randomForest instead of randomForestSRC package
 library(randomForest)
-```
-
-    ## randomForest 4.6-12
-
-    ## Type rfNews() to see new features/changes/bug fixes.
-
-    ## 
-    ## Attaching package: 'randomForest'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     margin
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     combine
-
-``` r
 dmod_forest <- randomForest(form, data = people, 
                      ntree = 201, mtry = 2)
 
@@ -794,30 +732,49 @@ dmod_forest
 
 ``` r
 # Now the predictions for tree and forest
-#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]
-pred_tree <- predict(dmod_tree, newdata = fake_grid)[,1]
+# REMEMBER predict() is generic and will execute
+# the correct predict() function based on the class
+# of model object we give it.
+class(dmod_tree)
+```
+
+    ## [1] "rpart"
+
+``` r
+# dmod_tree is an object of "rpart" class, so
+# when we call predict() we are really calling
+# the predict.rpart() function
+# from the function below, we keep column 2
+# which is predicting SleepTrouble=1 or YES
+pred_tree <- predict(dmod_tree, newdata = fake_grid)[,2]
 summary(pred_tree)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##  0.7315  0.7315  0.7315  0.7315  0.7315  0.7315
+    ##  0.2685  0.2685  0.2685  0.2685  0.2685  0.2685
 
 ``` r
-#table(pred_tree)
+# The analogous approach is used for predicting
+# results using the random forest model
+# so predict() calls predict.randomForest() since
+# dmod_forest is of "randomForest" class
+class(dmod_forest)
+```
 
-# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
-#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
-#                       type = "prob")[, "Yes"]
-pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,1]
+    ## [1] "randomForest.formula" "randomForest"
+
+``` r
+pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,2]
 summary(pred_forest)
 ```
 
-    ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-    ## 0.004975 0.447800 0.666700 0.633400 0.850700 1.000000
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##  0.0000  0.1493  0.3333  0.3666  0.5522  0.9950
 
 ``` r
-#table(pred_forest)
-
+# predicting SleepTrouble across the Age, BMI grid
+# fake data we created above - the predictions
+# are based on the model where k=5
 # K-nearest neighbor prediction
 pred_knn <- people %>%
   select(Age, BMI) %>%
@@ -829,18 +786,7 @@ Next, we want to build a dataframe with all of these predicted models, then `gat
 
 ``` r
 library(tidyr)
-```
 
-    ## Warning: package 'tidyr' was built under R version 3.3.3
-
-    ## 
-    ## Attaching package: 'tidyr'
-
-    ## The following object is masked from 'package:Matrix':
-    ## 
-    ##     expand
-
-``` r
 # build the data frame
 res <- fake_grid %>%
   mutate(
@@ -850,9 +796,6 @@ res <- fake_grid %>%
     "K-nearest neighbor" = pred_knn) %>%
   gather(k="model", value = "y_hat", -Age, -BMI)
 ```
-
-    ## Warning: attributes are not identical across measure variables; they will
-    ## be dropped
 
 Next let's plot all of these
 
@@ -872,7 +815,7 @@ ggplot(data = res, aes(x = Age, y = BMI)) +
 
 ### (Version 2): The ensemble method - using all 10 variables I choose
 
-The decision tree (`rpart`) and random forest models below use the 10 variables I selected. I then modified the plots to look at the effects of Age and Poverty insead of Age and BMI. I also added plots to show the decision tree and the variable importance plot from random forest so you can see that indeed BMI, Age and Poverty are indeed important in predicting sleep trouble.
+The decision tree (`rpart`) and random forest models below use the 10 variables I selected. I then modified the plots to look at each models predictions based on the original data (i.e. ***I did NOT generate fake-data below***). However, the plots show the predictions over the available data for Age and Poverty instead of Age and BMI. I also added plots to show the decision tree and the variable importance plot from random forest so you can see that indeed BMI, Age and Poverty are indeed important in predicting sleep trouble.
 
 ``` r
 people <- people %>%
@@ -881,18 +824,8 @@ people <- people %>%
          PhysActive, SleepTrouble)
   
 # note: all variables are numeric now, except
-# SleepTriuble which is a factor, but coded 0 for no and 1 for yes
-  
-# This time let's look at Age and Poverty instead
-# of Age and BMI
-#library(mosaic)
-# Create the grid
-#ages <- mosaic::range(~ Age, data = people)
-#povs <- mosaic::range(~ Poverty, data = people)
-#res <- 100
-#fake_grid <- expand.grid(
-#  Age = seq(from = ages[1], to = ages[2], length.out = res),
-#  Poverty = seq(from = povs[1], to = povs[2], length.out = res))
+# SleepTrouble was a factor, but is now numeric
+# and coded 0 for no and 1 for yes
 
 #Get the overall proportion, p, of people with Sleep Trouble
 p <- sum(people$SleepTrouble == 1)/length(people$SleepTrouble)
@@ -907,9 +840,6 @@ pred_null <- rep(p, nrow(people))
 
 form <- as.formula("SleepTrouble ~ .")
 
-#library(rpart)
-# Evaluate each model on each grid point
-# For the decision tree
 dmod_tree <- rpart(form, data = people, 
                    control = rpart.control(cp = 0.005, minbucket = 30))
 
@@ -956,13 +886,8 @@ text(dmod_tree, use.n = TRUE)
 # age and BMI are near the top, but 
 # so is Depressed and Poverty
 
-
-# For the forest
+# For random forest
 set.seed(20371)
-#dmod_forest <- rfsrc(form, data = people, 
-#                     ntree = 201, mtry = 3)
-# try with randomForest instead of randomForestSRC package
-#library(randomForest)
 dmod_forest <- randomForest(form, data = people, 
                      ntree = 201, mtry = 2)
 
@@ -996,29 +921,23 @@ varImpPlot(dmod_forest)
 
 # Now the predictions for tree and forest
 # just compute prediction from original data for now
-pred_tree <- predict(dmod_tree)[,1]
+# again keep column 2 for SleepTrouble=1 YES
+pred_tree <- predict(dmod_tree)[,2]
 summary(pred_tree)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##  0.2642  0.7493  0.7493  0.7315  0.8317  0.8317
+    ##  0.1683  0.1683  0.2507  0.2685  0.2507  0.7358
 
 ``` r
-#table(pred_tree)
-
-# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
-#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
-#                       type = "prob")[, "Yes"]
-pred_forest <- predict(dmod_forest, type = "prob")[,1]
+pred_forest <- predict(dmod_forest, type = "prob")[,2]
 summary(pred_forest)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ## 0.02778 0.70110 0.88610 0.80180 0.96050 1.00000
+    ## 0.00000 0.03947 0.11390 0.19820 0.29890 0.97220
 
 ``` r
-#table(pred_forest)
-
 # K-nearest neighbor prediction
 # but look at Age and Poverty
 pred_knn <- people %>%
@@ -1029,10 +948,7 @@ pred_knn <- people %>%
 Next, we want to build a dataframe with all of these predicted models, then `gather()` it into a long format.
 
 ``` r
-#library(tidyr)
-
 # build the data frame
-
 res <- people %>%
   mutate(
     "Null" = pred_null, 
@@ -1045,10 +961,7 @@ res <- people %>%
          -SleepTrouble)
 ```
 
-    ## Warning: attributes are not identical across measure variables; they will
-    ## be dropped
-
-Next let's plot all of these
+Next let's plot all of these. These plots are not as interesting as the ones above since the predictions are only done at points for which we had those Ages and Poverty levels - we did NOT build a complete fake grid...
 
 ``` r
 ggplot(data = res, aes(x = Age, y = Poverty)) +
@@ -1078,9 +991,11 @@ For each of the model types (null model, logistic regression, decision tree, ran
 
 ### Suppose we recode `SleepHrsNight` into optimal and suboptimal sleep
 
-To use the code similar to what we did above, it'll be best to create a categorical.binary outcome. Let's suppose that if the person got 7-9 hours of sleep each night that is optimal sleep time, but any sleep times less than 7 hours or more than 9 hours is considered suboptimal.
+To use the code based on what we did above, it'll be best to create a categorical.binary outcome. Let's suppose that if the person got 7-9 hours of sleep each night that is optimal sleep time, but any sleep times less than 7 hours or more than 9 hours is considered suboptimal.
 
-I'll use the same approach as above and same variable subset.
+***NOTE: Keep this issue in mind when it comes to sleep times, just because we have Sleep Hours per Night as a numeric/somewhat continuous variable, too much can be bad just as too little, so this outcome probably has a non-linear and probably somewhat quadratic type of response, so a linear approach to this outcome might not be the best anyway. Another idea is to break this outcome into 3 categories or "classes" for subjects with too little sleep, just right and too much sleep - each may have different clinical implications.***
+
+I'll use the same approach as above for a new variable created below `SleepOptimal` and same 10 selected variables subset.
 
 ``` r
 # build dataset for these 10 variables and SleepHrsNight
@@ -1487,7 +1402,7 @@ table(knn.20, people$SleepOptimal)
 The example here uses the same basic code we did in class for lesson 10. This looks at just Age and BMI and no other variables considered in the decision tree and random forest models. The plots also just consider Age and BMI.
 
 ``` r
-library(mosaic)
+#library(mosaic)
 # Create the grid
 ages <- mosaic::range(~ Age, data = people)
 bmis <- mosaic::range(~ BMI, data = people)
@@ -1509,7 +1424,7 @@ pred_null <- rep(p, nrow(fake_grid))
 
 form <- as.formula("SleepOptimal ~ Age + BMI")
 
-library(rpart)
+#library(rpart)
 # Evaluate each model on each grid point
 # For the decision tree
 dmod_tree <- rpart(form, data = people, 
@@ -1532,7 +1447,7 @@ set.seed(20371)
 #dmod_forest <- rfsrc(form, data = people, 
 #                     ntree = 201, mtry = 3)
 # try with randomForest instead of randomForestSRC package
-library(randomForest)
+#library(randomForest)
 dmod_forest <- randomForest(form, data = people, 
                      ntree = 201, mtry = 2)
 
@@ -1555,30 +1470,23 @@ dmod_forest
 
 ``` r
 # Now the predictions for tree and forest
-#pred_tree <- predict(dmod_tree, newdata = fake_grid)[, "Yes"]
-pred_tree <- predict(dmod_tree, newdata = fake_grid)[,1]
+# keep column 2
+pred_tree <- predict(dmod_tree, newdata = fake_grid)[,2]
 summary(pred_tree)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##  0.3799  0.3799  0.3799  0.3799  0.3799  0.3799
+    ##  0.6201  0.6201  0.6201  0.6201  0.6201  0.6201
 
 ``` r
-#table(pred_tree)
-
-# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
-#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
-#                       type = "prob")[, "Yes"]
-pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,1]
+pred_forest <- predict(dmod_forest, newdata = fake_grid, type = "prob")[,2]
 summary(pred_forest)
 ```
 
-    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##  0.0000  0.2189  0.3930  0.4369  0.6567  0.9950
+    ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    ## 0.004975 0.343300 0.607000 0.563100 0.781100 1.000000
 
 ``` r
-#table(pred_forest)
-
 # K-nearest neighbor prediction
 pred_knn <- people %>%
   select(Age, BMI) %>%
@@ -1589,8 +1497,7 @@ pred_knn <- people %>%
 Next, we want to build a dataframe with all of these predicted models, then `gather()` it into a long format.
 
 ``` r
-library(tidyr)
-
+#library(tidyr)
 # build the data frame
 res <- fake_grid %>%
   mutate(
@@ -1600,9 +1507,6 @@ res <- fake_grid %>%
     "K-nearest neighbor" = pred_knn) %>%
   gather(k="model", value = "y_hat", -Age, -BMI)
 ```
-
-    ## Warning: attributes are not identical across measure variables; they will
-    ## be dropped
 
 Next let's plot all of these
 
@@ -1627,7 +1531,7 @@ We could also analyze sleep hours per night using the original continuous/numeri
 
 ### Linear Regression
 
-So, instead of running a logistic regression model for a binary/categorical outcome, we'll run a linear regression for `SleepHrsNight` as a numeric/continuous outcome. After running the model, the predictions are saved and then plotted against the original values. As you can see in the plot below, the model does not do a very good job. THe adjusted R2 is only 0.04 and the predicted sleep times are very narrow (basically around the mean) and do not lie along a y=x reference line.
+So, instead of running a logistic regression model for a binary/categorical outcome, we'll run a linear regression for `SleepHrsNight` as a numeric/continuous outcome. After running the model, the predictions are saved and then plotted against the original values. As you can see in the plot below, the model does not do a very good job. The adjusted R2 is only 0.04 and the predicted sleep times are very narrow (basically around the mean) and do not lie along a y=x reference line.
 
 ``` r
 # build dataset for these 10 variables and SleepHrsNight
@@ -1803,6 +1707,8 @@ summary(lm1)
     ## F-statistic: 24.55 on 10 and 5957 DF,  p-value: < 2.2e-16
 
 ``` r
+# this time lm1 is of class "lm"
+# so we are really running predict.lm() below
 people$pred <- predict(lm1, 
                        newdata=people, 
                        type="response")
@@ -1821,7 +1727,7 @@ ggplot(people,
 
 ### NULL Model for Regression
 
-The NULL model for linear regression uses the same approach as above - basically and intercept-only model which is *Y* = *β*<sub>0</sub> + *ϵ* - basically the outcome `Y` is estimated by the grand mean.
+The NULL model for linear regression uses the same approach as above - basically and intercept-only model which is *Y* = *β*<sub>0</sub> + *ϵ* where basically the outcome `Y` is estimated by the grand mean.
 
 ``` r
 lm1.null <- lm("SleepHrsNight ~ 1", data=people)
@@ -2065,6 +1971,10 @@ varImpPlot(dmod_forest)
 
 # Now the predictions for tree and forest
 # just compute prediction from original data for now
+
+# **NOTE:** there is only 1 column of output
+# from predict() since the outcome is continuous and
+# NOT a factor of different "classes"
 pred_tree <- predict(dmod_tree)
 summary(pred_tree)
 ```
@@ -2073,11 +1983,6 @@ summary(pred_tree)
     ##   6.461   6.907   6.907   6.903   6.907   7.466
 
 ``` r
-#table(pred_tree)
-
-# pred_tree <- predict(dmod_tree, newdata = fake_grid)[, 1]
-#pred_forest <- predict(dmod_forest, newdata = fake_grid, 
-#                       type = "prob")[, "Yes"]
 pred_forest <- predict(dmod_forest)
 summary(pred_forest)
 ```
@@ -2085,7 +1990,7 @@ summary(pred_forest)
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     ##   4.455   6.638   6.936   6.902   7.215   9.423
 
-Let's make a plot of each of the predictions against the original values.
+Let's make a plot of each of the predictions against the original values. **NOTE:** I left off the predictions from the KNN model in the ensemble plot below.
 
 ``` r
 # define multiplot function
